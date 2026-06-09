@@ -1,7 +1,7 @@
 package org.mql.jee.trainingcenter.dao.mappers;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.mql.jee.trainingcenter.models.Student;
 
@@ -22,7 +22,7 @@ public class StudentORM {
 
     public static List<Student> getStudentsList(String[][] data) {
 
-        List<Student> students = new ArrayList<>();
+        List<Student> students = new Vector<>();
 
         for (String[] row : data) {
             students.add(getStudent(row));
