@@ -14,7 +14,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/p02-jdbc"/>
-	<classpathentry kind="lib" path="C:/Users/m/OneDrive/Documents/DOCUMENTS/MASTER/S2/JakarataEE/MySQL/mysql-5.1/mysql.jar"/>
-	<classpathentry kind="lib" path="C:/Users/m/OneDrive/Documents/DOCUMENTS/MASTER/S2/JakarataEE/database.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/database.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
