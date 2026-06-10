@@ -1,5 +1,6 @@
 package org.mql.jee.trainingcenter.dao.mappers;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +17,7 @@ public class StudentORM {
         s.setLastName(row[2]);
         s.setEmail(row[3]);
         s.setPhone(row[4]);
+        s.setCreatedAt(Timestamp.valueOf(row[5]));
 
         return s;
     }
