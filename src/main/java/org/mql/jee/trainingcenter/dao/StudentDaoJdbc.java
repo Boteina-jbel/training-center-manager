@@ -23,7 +23,13 @@ public class StudentDaoJdbc implements StudentDao {
 
     @Override
     public Student selectById(int id) {
-        String data[][] = db.selectById(tableName, "id", id);
+
+        String[][] data = db.selectById(tableName, "id", id);
+
+        if(data == null || data.length == 0) {
+            return null;
+        }
+        
         return StudentORM.getStudent(data[0]);
     }
 
