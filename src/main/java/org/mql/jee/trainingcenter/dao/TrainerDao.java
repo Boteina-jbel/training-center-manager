@@ -8,9 +8,9 @@ public interface TrainerDao {
 
     Trainer selectById(int id);
 
-    void insert(Trainer student);
+    void insert(Trainer trainer);
 
-    void update(Trainer student);
+    void update(Trainer trainer);
 
     void delete(int id);
 }
