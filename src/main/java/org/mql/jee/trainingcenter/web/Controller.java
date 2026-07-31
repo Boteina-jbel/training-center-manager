@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.mql.jee.trainingcenter.context.Model;
 import org.mql.jee.trainingcenter.web.actions.StudentAction;
+import org.mql.jee.trainingcenter.web.actions.TrainerAction;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ public class Controller extends HttpServlet {
 	private String suffix;
 
 	private StudentAction studentAction;
+	private TrainerAction trainerAction;
 
 	public Controller() {
 		System.out.println(">>> new Controller()");
@@ -32,6 +34,7 @@ public class Controller extends HttpServlet {
 		suffix = getServletContext().getInitParameter("suffix");
 
 		studentAction = new StudentAction();
+		trainerAction = new TrainerAction();
 
 		System.out.println("> datasource : " + datasource);
 	}
@@ -45,6 +48,11 @@ public class Controller extends HttpServlet {
 
 		if (uri.endsWith("/students-list")) {
 			view = studentAction.studentsList(model);
+		}
+		else if (uri.endsWith("/trainers-list")) {
+
+		    view = trainerAction.trainersList(model);
+
 		}
 
 		request.setAttribute("model", model);
