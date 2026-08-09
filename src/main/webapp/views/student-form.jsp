@@ -76,7 +76,7 @@ button {
 </h1>
 
 <form method="post"
-      action="<%= request.getContextPath() %>/<%= formAction %>">
+      action="<%= request.getContextPath() %>/training/<%= formAction %>">
 
     <% if(editMode) { %>
 
@@ -126,7 +126,7 @@ button {
 </form>
 
 <a class="back-button"
-   href="<%= request.getContextPath() %>/students-list">
+   href="<%= request.getContextPath() %>/training/students-list">
 
     ← Back to Students List
 

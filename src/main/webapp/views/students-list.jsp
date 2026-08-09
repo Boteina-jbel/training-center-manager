@@ -75,7 +75,7 @@ th {
 <h1>Students List</h1>
 
 <a class="add-button"
-   href="<%= request.getContextPath() %>/student-add-form">
+   href="<%= request.getContextPath() %>/training/student-add-form">
     + Add Student
 </a>
 
@@ -109,12 +109,12 @@ th {
         <td>
 
             <a class="edit-button"
-               href="<%= request.getContextPath() %>/student-edit?id=<%= s.getId() %>">
+               href="<%= request.getContextPath() %>/training/student-edit?id=<%= s.getId() %>">
                 Edit
             </a>
 
             <a class="delete-button"
-               href="<%= request.getContextPath() %>/student-delete?id=<%= s.getId() %>"
+               href="<%= request.getContextPath() %>/training/student-delete?id=<%= s.getId() %>"
                onclick="return confirm('Are you sure you want to delete this student?');">
                 Delete
             </a>
