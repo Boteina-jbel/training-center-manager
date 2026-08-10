@@ -113,11 +113,21 @@ th {
                 Edit
             </a>
 
-            <a class="delete-button"
-               href="<%= request.getContextPath() %>/training/student-delete?id=<%= s.getId() %>"
-               onclick="return confirm('Are you sure you want to delete this student?');">
-                Delete
-            </a>
+            
+            <form method="post"
+			      action="<%= request.getContextPath() %>/training/student-delete"
+			      style="display:inline;"
+			      onsubmit="return confirm('Are you sure you want to delete this student?');">
+			
+			    <input type="hidden"
+			           name="id"
+			           value="<%= s.getId() %>">
+			
+			    <button class="delete-button" type="submit">
+			        🗑️ Delete
+			    </button>
+			
+			</form>
 
         </td>
 
