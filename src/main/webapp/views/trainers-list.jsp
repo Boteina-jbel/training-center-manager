@@ -1,87 +1,140 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java"
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.List"%>
-<%@page import="org.mql.jee.trainingcenter.models.Trainer"%>
-<%@page import="org.mql.jee.trainingcenter.context.Model"%>
+
+<%@ page import="java.util.List" %>
+<%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
+<%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
 <%
     Model model = (Model) request.getAttribute("model");
-    List<Trainer> trainers = (List<Trainer>) model.getModel("trainers");
+    List<Trainer> trainers =
+            (List<Trainer>) model.getModel("trainers");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Trainers List</title>
+    <meta charset="UTF-8">
+    <title>Trainers List</title>
 
-<style>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+        }
 
-body{
-    font-family: Arial, sans-serif;
-    margin:40px;
-}
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
 
-table{
-    border-collapse:collapse;
-    width:100%;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-th,td{
-    border:1px solid #ccc;
-    padding:10px;
-    text-align:left;
-}
+        h1 {
+            text-align: center;
+        }
 
-th{
-    background:#f2f2f2;
-}
+        .actions {
+            text-align: center;
+            margin: 20px;
+        }
 
-h1{
-    color:#333;
-}
-
-</style>
-
+        a {
+            text-decoration: none;
+            margin: 5px;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Training Center - Trainers</h1>
+<h1>Trainers List</h1>
+
+<div class="actions">
+    <a href="<%= request.getContextPath() %>/training/trainer-add-form">
+        ➕ Add Trainer
+    </a>
+</div>
 
 <table>
 
-<tr>
-    <th>ID</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Specialization</th>
-    <th>Created At</th>
-</tr>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Specialization</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
 
-<%
-for(Trainer trainer : trainers){
-%>
+    <%
+        if (trainers != null && !trainers.isEmpty()) {
 
-<tr>
+            for (Trainer trainer : trainers) {
+    %>
 
-    <td><%=trainer.getId()%></td>
+    <tr>
 
-    <td><%=trainer.getFirstName()%></td>
+        <td>
+            <%= trainer.getId() %>
+        </td>
 
-    <td><%=trainer.getLastName()%></td>
+        <td>
+            <%= trainer.getFirstName() %>
+        </td>
 
-    <td><%=trainer.getEmail()%></td>
+        <td>
+            <%= trainer.getLastName() %>
+        </td>
 
-    <td><%=trainer.getSpecialization()%></td>
+        <td>
+            <%= trainer.getEmail() %>
+        </td>
 
-    <td><%=trainer.getCreatedAt()%></td>
+        <td>
+            <%= trainer.getSpecialization() %>
+        </td>
 
-</tr>
+        <td>
+            <%= trainer.getCreatedAt() %>
+        </td>
 
-<%
-}
-%>
+        <td>
+
+            <a href="<%= request.getContextPath() %>/training/trainer-edit?id=<%= trainer.getId() %>">
+                ✏️ Edit
+            </a>
+
+            <a href="<%= request.getContextPath() %>/training/trainer-delete?id=<%= trainer.getId() %>"
+               onclick="return confirm('Are you sure you want to delete this trainer?');">
+                🗑️ Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+    <%
+            }
+
+        } else {
+    %>
+
+    <tr>
+        <td colspan="7">
+            No trainers found.
+        </td>
+    </tr>
+
+    <%
+        }
+    %>
 
 </table>
 
