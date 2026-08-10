@@ -12,13 +12,11 @@ public class TrainerAction {
     private TrainerService service;
 
     public TrainerAction() {
+        super();
         service = ApplicationContext.getTrainerService();
     }
 
-    // =========================
-    // LIST
-    // =========================
-
+    // READ - List all trainers
     public String trainersList(Model model) {
 
         System.out.println(">> Action : trainersList()");
@@ -30,11 +28,7 @@ public class TrainerAction {
         return "trainers-list";
     }
 
-
-    // =========================
-    // ADD FORM
-    // =========================
-
+    // CREATE - Show add form
     public String trainerAddForm(Model model) {
 
         System.out.println(">> Action : trainerAddForm()");
@@ -42,33 +36,18 @@ public class TrainerAction {
         return "trainer-form";
     }
 
-
-    // =========================
-    // ADD
-    // =========================
-
-    public String trainerAdd(Model model, String firstName, String lastName, String email, String specialization) {
+    // CREATE - Add trainer
+    public String addTrainer(Trainer trainer, Model model) {
 
         System.out.println(">> Action : trainerAdd()");
 
-        Trainer trainer = new Trainer();
-
-        trainer.setFirstName(firstName);
-        trainer.setLastName(lastName);
-        trainer.setEmail(email);
-        trainer.setSpecialization(specialization);
-
         service.addTrainer(trainer);
 
-        return "trainers-list";
+        return trainersList(model);
     }
 
-
-    // =========================
-    // EDIT FORM
-    // =========================
-
-    public String trainerEditForm(Model model, int id) {
+    // UPDATE - Show edit form
+    public String trainerEditForm(int id, Model model) {
 
         System.out.println(">> Action : trainerEditForm()");
 
@@ -79,43 +58,23 @@ public class TrainerAction {
         return "trainer-form";
     }
 
-
-    // =========================
-    // UPDATE
-    // =========================
-
-    public String trainerUpdate(Model model, int id,
-                                 String firstName,
-                                 String lastName,
-                                 String email,
-                                 String specialization) {
+    // UPDATE - Update trainer
+    public String updateTrainer(Trainer trainer, Model model) {
 
         System.out.println(">> Action : trainerUpdate()");
 
-        Trainer trainer = new Trainer();
-
-        trainer.setId(id);
-        trainer.setFirstName(firstName);
-        trainer.setLastName(lastName);
-        trainer.setEmail(email);
-        trainer.setSpecialization(specialization);
-
         service.updateTrainer(trainer);
 
-        return "trainers-list";
+        return trainersList(model);
     }
 
-
-    // =========================
-    // DELETE
-    // =========================
-
-    public String trainerDelete(Model model, int id) {
+    // DELETE - Delete trainer
+    public String deleteTrainer(int id, Model model) {
 
         System.out.println(">> Action : trainerDelete()");
 
         service.deleteTrainer(id);
 
-        return "trainers-list";
+        return trainersList(model);
     }
 }
