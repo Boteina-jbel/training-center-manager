@@ -12,22 +12,110 @@ public class TrainerAction {
     private TrainerService service;
 
     public TrainerAction() {
-        super();
         service = ApplicationContext.getTrainerService();
     }
 
-    // Action : afficher la liste des formateurs
+    // =========================
+    // LIST
+    // =========================
+
     public String trainersList(Model model) {
 
         System.out.println(">> Action : trainersList()");
 
-        // 1. Récupérer les données depuis la couche métier
         List<Trainer> trainers = service.getAllTrainers();
 
-        // 2. Les placer dans le modèle
         model.setModel("trainers", trainers);
 
-        // 3. Retourner le nom de la vue
+        return "trainers-list";
+    }
+
+
+    // =========================
+    // ADD FORM
+    // =========================
+
+    public String trainerAddForm(Model model) {
+
+        System.out.println(">> Action : trainerAddForm()");
+
+        return "trainer-form";
+    }
+
+
+    // =========================
+    // ADD
+    // =========================
+
+    public String trainerAdd(Model model, String firstName, String lastName, String email, String specialization) {
+
+        System.out.println(">> Action : trainerAdd()");
+
+        Trainer trainer = new Trainer();
+
+        trainer.setFirstName(firstName);
+        trainer.setLastName(lastName);
+        trainer.setEmail(email);
+        trainer.setSpecialization(specialization);
+
+        service.addTrainer(trainer);
+
+        return "trainers-list";
+    }
+
+
+    // =========================
+    // EDIT FORM
+    // =========================
+
+    public String trainerEditForm(Model model, int id) {
+
+        System.out.println(">> Action : trainerEditForm()");
+
+        Trainer trainer = service.getTrainerById(id);
+
+        model.setModel("trainer", trainer);
+
+        return "trainer-form";
+    }
+
+
+    // =========================
+    // UPDATE
+    // =========================
+
+    public String trainerUpdate(Model model, int id,
+                                 String firstName,
+                                 String lastName,
+                                 String email,
+                                 String specialization) {
+
+        System.out.println(">> Action : trainerUpdate()");
+
+        Trainer trainer = new Trainer();
+
+        trainer.setId(id);
+        trainer.setFirstName(firstName);
+        trainer.setLastName(lastName);
+        trainer.setEmail(email);
+        trainer.setSpecialization(specialization);
+
+        service.updateTrainer(trainer);
+
+        return "trainers-list";
+    }
+
+
+    // =========================
+    // DELETE
+    // =========================
+
+    public String trainerDelete(Model model, int id) {
+
+        System.out.println(">> Action : trainerDelete()");
+
+        service.deleteTrainer(id);
+
         return "trainers-list";
     }
 }
