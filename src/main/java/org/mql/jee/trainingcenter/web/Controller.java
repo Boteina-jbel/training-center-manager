@@ -24,10 +24,6 @@ public class Controller extends HttpServlet {
     private StudentAction studentAction;
     private TrainerAction trainerAction;
 
-    public Controller() {
-        System.out.println(">>> new Controller()");
-    }
-
     @Override
     public void init() throws ServletException {
 
@@ -38,8 +34,6 @@ public class Controller extends HttpServlet {
 
         studentAction = new StudentAction();
         trainerAction = new TrainerAction();
-
-        System.out.println("> datasource : " + datasource);
     }
 
     // =====================================================
@@ -52,8 +46,6 @@ public class Controller extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println(">> Controller.doGet()");
-
         String uri = request.getRequestURI();
 
         String view = "error";
@@ -64,65 +56,46 @@ public class Controller extends HttpServlet {
         // STUDENT
         // =================================================
 
-        // READ - afficher la liste
         if (uri.endsWith("/students-list")) {
 
             view = studentAction.studentsList(model);
-        }
 
-        // CREATE - afficher le formulaire
-        else if (uri.endsWith("/student-add-form")) {
+        } else if (uri.endsWith("/student-add-form")) {
 
             view = studentAction.studentAddForm(model);
-        }
 
-        // UPDATE - afficher le formulaire de modification
-        else if (uri.endsWith("/student-edit")) {
+        } else if (uri.endsWith("/student-edit")) {
 
-            int id = Integer.parseInt(
-                    request.getParameter("id")
+            int id = getId(request);
+
+            view = studentAction.studentEditForm(
+                    id,
+                    model
             );
-
-            view = studentAction.studentEditForm(id, model);
-        }
 
         // =================================================
         // TRAINER
         // =================================================
 
-        // READ - afficher la liste
-        else if (uri.endsWith("/trainers-list")) {
+        } else if (uri.endsWith("/trainers-list")) {
 
             view = trainerAction.trainersList(model);
-        }
 
-        // CREATE - afficher le formulaire
-        else if (uri.endsWith("/trainer-add-form")) {
+        } else if (uri.endsWith("/trainer-add-form")) {
 
             view = trainerAction.trainerAddForm(model);
-        }
 
-        // UPDATE - afficher le formulaire de modification
-        else if (uri.endsWith("/trainer-edit")) {
+        } else if (uri.endsWith("/trainer-edit")) {
 
-            int id = Integer.parseInt(
-                    request.getParameter("id")
+            int id = getId(request);
+
+            view = trainerAction.trainerEditForm(
+                    id,
+                    model
             );
-
-            view = trainerAction.trainerEditForm(id, model);
         }
 
-        // =================================================
-        // FORWARD
-        // =================================================
-
-        request.setAttribute("model", model);
-
-        getServletContext()
-                .getRequestDispatcher(
-                        prefix + view + suffix
-                )
-                .forward(request, response);
+        forward(request, response, view, model);
     }
 
     // =====================================================
@@ -135,8 +108,6 @@ public class Controller extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println(">> Controller.doPost()");
-
         String uri = request.getRequestURI();
 
         String view = "error";
@@ -147,7 +118,6 @@ public class Controller extends HttpServlet {
         // STUDENT
         // =================================================
 
-        // CREATE - ajouter un étudiant
         if (uri.endsWith("/student-add")) {
 
             Student student = new Student();
@@ -172,18 +142,12 @@ public class Controller extends HttpServlet {
                     student,
                     model
             );
-        }
 
-        // UPDATE - modifier un étudiant
-        else if (uri.endsWith("/student-update")) {
+        } else if (uri.endsWith("/student-update")) {
 
             Student student = new Student();
 
-            student.setId(
-                    Integer.parseInt(
-                            request.getParameter("id")
-                    )
-            );
+            student.setId(getId(request));
 
             student.setFirstName(
                     request.getParameter("firstName")
@@ -205,27 +169,21 @@ public class Controller extends HttpServlet {
                     student,
                     model
             );
-        }
 
-        // DELETE - supprimer un étudiant
-        else if (uri.endsWith("/student-delete")) {
+        } else if (uri.endsWith("/student-delete")) {
 
-            int id = Integer.parseInt(
-                    request.getParameter("id")
-            );
+            int id = getId(request);
 
             view = studentAction.deleteStudent(
                     id,
                     model
             );
-        }
 
         // =================================================
         // TRAINER
         // =================================================
 
-        // CREATE - ajouter un formateur
-        else if (uri.endsWith("/trainer-add")) {
+        } else if (uri.endsWith("/trainer-add")) {
 
             Trainer trainer = new Trainer();
 
@@ -249,18 +207,12 @@ public class Controller extends HttpServlet {
                     trainer,
                     model
             );
-        }
 
-        // UPDATE - modifier un formateur
-        else if (uri.endsWith("/trainer-update")) {
+        } else if (uri.endsWith("/trainer-update")) {
 
             Trainer trainer = new Trainer();
 
-            trainer.setId(
-                    Integer.parseInt(
-                            request.getParameter("id")
-                    )
-            );
+            trainer.setId(getId(request));
 
             trainer.setFirstName(
                     request.getParameter("firstName")
@@ -282,14 +234,10 @@ public class Controller extends HttpServlet {
                     trainer,
                     model
             );
-        }
 
-        // DELETE - supprimer un formateur
-        else if (uri.endsWith("/trainer-delete")) {
+        } else if (uri.endsWith("/trainer-delete")) {
 
-            int id = Integer.parseInt(
-                    request.getParameter("id")
-            );
+            int id = getId(request);
 
             view = trainerAction.deleteTrainer(
                     id,
@@ -297,9 +245,30 @@ public class Controller extends HttpServlet {
             );
         }
 
-        // =================================================
-        // FORWARD
-        // =================================================
+        forward(request, response, view, model);
+    }
+
+    // =====================================================
+    // GET ID
+    // =====================================================
+
+    private int getId(HttpServletRequest request) {
+
+        return Integer.parseInt(
+                request.getParameter("id")
+        );
+    }
+
+    // =====================================================
+    // FORWARD
+    // =====================================================
+
+    private void forward(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String view,
+            Model model)
+            throws ServletException, IOException {
 
         request.setAttribute("model", model);
 
