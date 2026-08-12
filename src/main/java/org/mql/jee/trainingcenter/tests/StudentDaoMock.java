@@ -1,18 +1,18 @@
 package org.mql.jee.trainingcenter.tests;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.mql.jee.trainingcenter.dao.StudentDao;
 import org.mql.jee.trainingcenter.models.Student;
 
 public class StudentDaoMock implements StudentDao {
 
-    private List<Student> students = new ArrayList<>();
+    private List<Student> students = new Vector<>();
 
     @Override
     public List<Student> selectAll() {
-        return new ArrayList<>(students);
+        return new Vector<>(students);
     }
 
     @Override
