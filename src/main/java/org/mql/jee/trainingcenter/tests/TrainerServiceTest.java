@@ -520,4 +520,30 @@ class TrainerServiceTest {
                 () -> service.addTrainer(trainer)
         );
     }
+    
+    @Test
+    @DisplayName("Refuser un formateur sans spécialisation")
+    void addTrainerWithoutSpecialization() {
+
+        // Arrange
+        Trainer trainer = new Trainer(
+            2,
+            "Ahmed",
+            "Alami",
+            "ahmed@gmail.com",
+            "",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        TrainerException exception = assertThrows(
+            TrainerException.class,
+            () -> service.addTrainer(trainer)
+        );
+
+        assertEquals(
+            "Specialization is required.",
+            exception.getMessage()
+        );
+    }
 }
