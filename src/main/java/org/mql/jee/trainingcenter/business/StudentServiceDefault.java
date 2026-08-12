@@ -89,6 +89,7 @@ public class StudentServiceDefault implements StudentService {
         if (student == null) {
             throw new StudentException("Student cannot be null.");
         }
+        
 
         if (isEmpty(student.getFirstName())) {
             throw new StudentException("First name is required.");
