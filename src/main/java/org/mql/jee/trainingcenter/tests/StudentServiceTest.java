@@ -294,4 +294,146 @@ class StudentServiceTest {
                 () -> service.deleteStudent(0)
         );
     }
+    
+    
+    @Test
+    @DisplayName("Refuser un étudiant sans nom")
+    void addStudentWithoutLastName() {
+
+        // Arrange
+        Student student = new Student(
+            2,
+            "Boteina",
+            "",
+            "boteina@gmail.com",
+            "0612345678",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        StudentException exception = assertThrows(
+            StudentException.class,
+            () -> service.addStudent(student)
+        );
+
+        assertEquals(
+            "Last name is required.",
+            exception.getMessage()
+        );
+    }
+    
+    @Test
+    @DisplayName("Refuser un étudiant avec un nom null")
+    void addStudentWithNullLastName() {
+
+        // Arrange
+        Student student = new Student(
+            2,
+            "Boteina",
+            null,
+            "boteina@gmail.com",
+            "0612345678",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        assertThrows(
+            StudentException.class,
+            () -> service.addStudent(student)
+        );
+    }
+    
+    @Test
+    @DisplayName("Refuser un nom composé uniquement d'espaces")
+    void addStudentWithBlankLastName() {
+
+        // Arrange
+        Student student = new Student(
+            2,
+            "Boteina",
+            "   ",
+            "boteina@gmail.com",
+            "0612345678",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        assertThrows(
+            StudentException.class,
+            () -> service.addStudent(student)
+        );
+    }
+    
+    @Test
+    @DisplayName("Refuser un étudiant sans email")
+    void addStudentWithoutEmail() {
+
+        // Arrange
+        Student student = new Student(
+            2,
+            "Boteina",
+            "JBEL",
+            "",
+            "0612345678",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        StudentException exception = assertThrows(
+            StudentException.class,
+            () -> service.addStudent(student)
+        );
+
+        assertEquals(
+            "Email is required.",
+            exception.getMessage()
+        );
+    }
+    
+    @Test
+    @DisplayName("Refuser un étudiant avec un email null")
+    void addStudentWithNullEmail() {
+
+        // Arrange
+        Student student = new Student(
+            2,
+            "Boteina",
+            "JBEL",
+            null,
+            "0612345678",
+            new Timestamp(System.currentTimeMillis())
+        );
+
+        // Act & Assert
+        assertThrows(
+            StudentException.class,
+            () -> service.addStudent(student)
+        );
+    }
+    
+    @Test
+    @DisplayName("Refuser la modification avec un ID invalide")
+    void updateStudentInvalidId() {
+
+        // Arrange
+        Student student = new Student(
+            0,
+            "Boteina",
+            "JBEL",
+            "boteina@gmail.com",
+            "0612345678",
+            defaultStudent.getCreatedAt()
+        );
+
+        // Act & Assert
+        StudentException exception = assertThrows(
+            StudentException.class,
+            () -> service.updateStudent(student)
+        );
+
+        assertEquals(
+            "Invalid student ID.",
+            exception.getMessage()
+        );
+    }
 }
