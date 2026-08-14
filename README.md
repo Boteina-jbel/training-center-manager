@@ -1,274 +1,252 @@
 # Training Center Manager
 
-Application web de gestion d'un centre de formation développée avec **Jakarta EE**, **JDBC**, **MySQL** et **JSP**.
+Application web de gestion d'un centre de formation développée avec **Jakarta EE**, dans le cadre du Master Qualité du Logiciel.
 
-L'application permet de gérer les étudiants et les formateurs d'un centre de formation à travers une architecture organisée en plusieurs couches : présentation, métier, accès aux données et modèles.
-
----
-
-## 📌 Fonctionnalités
-
-### 👨‍🎓 Gestion des étudiants
-
-L'application permet de :
-
-- Afficher la liste des étudiants
-- Ajouter un étudiant
-- Modifier un étudiant
-- Supprimer un étudiant
-- Consulter un étudiant par son identifiant
-- Valider les informations saisies
-
-Informations d'un étudiant :
-
-- ID
-- Prénom
-- Nom
-- Email
-- Téléphone
-- Date de création
-
-### 👨‍🏫 Gestion des formateurs
-
-L'application permet de :
-
-- Afficher la liste des formateurs
-- Ajouter un formateur
-- Modifier un formateur
-- Supprimer un formateur
-- Consulter un formateur par son identifiant
-- Valider les informations saisies
-
-Informations d'un formateur :
-
-- ID
-- Prénom
-- Nom
-- Email
-- Spécialisation
-- Date de création
+Le projet a été réalisé sous forme de **Dynamic Web Project** avec Eclipse et Apache Tomcat, en utilisant JDBC pour l'accès aux données.
 
 ---
 
-## 🛠️ Technologies utilisées
+## 📌 Présentation
 
-- Java
-- Jakarta EE
-- JSP
-- Servlets
-- JDBC
-- MySQL
-- Apache Tomcat
-- Maven
-- JUnit 5
-- HTML
-- CSS
-- Git / GitHub
+**Training Center Manager** est une application web permettant de gérer les principales ressources d'un centre de formation :
 
----
+- Étudiants
+- Formateurs
+- Formations
+- Inscriptions
 
-# 🏗️ Architecture du projet
+La gestion des étudiants et des formateurs comprend les opérations CRUD :
 
-Le projet suit une architecture en couches afin de séparer les différentes responsabilités.
+- Consultation
+- Recherche par identifiant
+- Ajout
+- Modification
+- Suppression
 
-```
-org.mql.jee.trainingcenter
-│
-├── business
-│   ├── StudentService.java
-│   ├── StudentServiceDefault.java
-│   ├── TrainerService.java
-│   └── TrainerServiceDefault.java
-│
-├── context
-│   ├── ApplicationContext.java
-│   └── Model.java
-│
-├── dao
-│   ├── StudentDao.java
-│   ├── StudentDaoJdbc.java
-│   ├── TrainerDao.java
-│   ├── TrainerDaoJdbc.java
-│   │
-│   └── mappers
-│       ├── StudentORM.java
-│       └── TrainerORM.java
-│
-├── exceptions
-│   ├── StudentException.java
-│   └── TrainerException.java
-│
-├── models
-│   ├── Student.java
-│   └── Trainer.java
-│
-├── tests
-│   ├── StudentDaoMock.java
-│   ├── StudentServiceTest.java
-│   ├── TrainerDaoMock.java
-│   └── TrainerServiceTest.java
-│
-└── web
-    └── actions
-        ├── StudentAction.java
-        └── TrainerAction.java
-```
+L'application intègre également des validations métier, une gestion des exceptions et des tests unitaires de la couche Business.
 
 ---
 
-# 🧩 Architecture en couches
+## 🏗️ Architecture
 
-Le projet utilise plusieurs couches.
+Le projet adopte une architecture en couches permettant de séparer clairement les responsabilités.
 
+```text
+                    ┌──────────────────────┐
+                    │        Web           │
+                    │ Controller / Actions │
+                    │        JSP           │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │      Business        │
+                    │      Services        │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │        DAO           │
+                    │   JDBC / Mappers     │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │        MySQL         │
+                    └──────────────────────┘
 ```
-                 ┌─────────────────────┐
-                 │        JSP          │
-                 │   Presentation      │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │       Action        │
-                 │    Web / Controller │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │      Service        │
-                 │   Business Layer    │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │        DAO          │
-                 │    Data Access      │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │       JDBC          │
-                 │      Database       │
-                 └──────────┬──────────┘
-                            │
-                            ▼
-                 ┌─────────────────────┐
-                 │       MySQL         │
-                 └─────────────────────┘
-```
+
+### Web Layer
+
+La couche Web est responsable de la réception des requêtes, de leur traitement et de la présentation des données.
+
+Elle comprend :
+
+* Un **Controller** central
+* Des classes **Action**
+* Des vues **JSP**
+
+Le Controller joue le rôle de **Front Controller** et dirige les requêtes vers les actions appropriées.
+
+Les Actions servent d'intermédiaires entre la couche Web et la couche Business.
 
 ---
 
-# 📂 Description des couches
+### Business Layer
 
-## 1. Model
+La couche Business contient la logique métier de l'application.
 
-Le package `models` contient les objets métier de l'application.
+Elle repose sur des interfaces de services et leurs implémentations :
 
-Exemples :
+```text
+StudentService
+StudentServiceDefault
 
-```
-Student
-Trainer
-```
-
-Ces classes représentent les données manipulées par l'application.
-
----
-
-## 2. DAO
-
-Le package `dao` contient les interfaces et les implémentations permettant d'accéder à la base de données.
-
-Exemple :
-
-```java
-public interface TrainerDao {
-
-    List<Trainer> selectAll();
-
-    Trainer selectById(int id);
-
-    void insert(Trainer trainer);
-
-    void update(Trainer trainer);
-
-    void delete(int id);
-}
-```
-
-L'implémentation JDBC est :
-
-```
-TrainerDaoJdbc
-```
-
-Elle utilise la classe `Database` pour communiquer avec MySQL.
-
----
-
-## 3. ORM Mapper
-
-Les classes `StudentORM` et `TrainerORM` permettent de transformer les résultats SQL en objets Java.
-
-Exemple :
-
-```
-Résultat SQL
-      ↓
-   ORM Mapper
-      ↓
-Student / Trainer
-```
-
-Cela permet de séparer la récupération des données SQL de leur transformation en objets métier.
-
----
-
-## 4. Business / Service
-
-Le package `business` contient la logique métier.
-
-Exemple :
-
-```
 TrainerService
 TrainerServiceDefault
 ```
 
-Le service :
+Cette couche est responsable notamment :
 
-- valide les données
-- vérifie les identifiants
-- vérifie l'existence des objets
-- appelle le DAO
-- applique les règles métier
+* Des validations
+* De la vérification des identifiants
+* De la vérification de l'existence des entités
+* De la gestion des règles métier
+* De la communication avec les DAO
 
-Exemple :
+La couche Web ne communique donc pas directement avec la base de données.
 
-```java
-public void deleteTrainer(int id) {
+---
 
-    if (id <= 0) {
-        throw new TrainerException("Invalid trainer ID.");
-    }
+### DAO Layer
 
-    Trainer trainer = trainerDao.selectById(id);
+La couche DAO est responsable de l'accès aux données.
 
-    if (trainer == null) {
-        throw new TrainerException("Trainer not found.");
-    }
+Elle sépare l'abstraction de l'accès aux données de son implémentation :
 
-    trainerDao.delete(id);
-}
+```text
+StudentDao
+StudentDaoJdbc
+
+TrainerDao
+TrainerDaoJdbc
+```
+
+Les interfaces DAO définissent les opérations disponibles tandis que les implémentations utilisent JDBC pour communiquer avec la base de données.
+
+Les classes ORM Mapper assurent la transformation des résultats SQL en objets Java.
+
+```text
+Database
+    ↓
+ResultSet
+    ↓
+ORM Mapper
+    ↓
+Java Object
 ```
 
 ---
 
-# 🔌 Dependency Injection
+## 🎯 Design Patterns et principes utilisés
 
-Le projet utilise l'injection de dépendances par constructeur.
+Le projet met en pratique plusieurs concepts d'architecture logicielle et de conception étudiés en Jakarta EE.
 
-Exemple :
+### MVC 2
+
+L'application suit une architecture **MVC 2** :
+
+```text
+Model
+   │
+   ├── Student
+   ├── Trainer
+   └── autres modèles
+
+View
+   │
+   └── JSP
+
+Controller
+   │
+   └── Servlet
+```
+
+Le Controller reçoit les requêtes, les transmet aux Actions et prépare les données nécessaires aux JSP.
+
+Cette organisation permet de séparer :
+
+* La présentation
+* Le traitement
+* Les données
+
+---
+
+### Front Controller
+
+Le Servlet `Controller` constitue le point d'entrée principal des requêtes web.
+
+Au lieu d'avoir plusieurs Servlets indépendants, les requêtes passent par un Controller central qui détermine l'action à exécuter.
+
+```text
+Browser
+   ↓
+Controller
+   ↓
+Action
+   ↓
+Business
+```
+
+Cela centralise la gestion des requêtes et simplifie l'organisation de la couche Web.
+
+---
+
+### Facade Pattern
+
+Les classes `StudentAction` et `TrainerAction` utilisent les interfaces de la couche Business.
+
+Par exemple :
+
+```text
+TrainerAction
+      ↓
+TrainerService
+      ↓
+TrainerDao
+```
+
+La couche Business fournit ainsi une interface simplifiée à la couche Web.
+
+La couche Web n'a pas besoin de connaître les détails liés à JDBC ou à la base de données.
+
+---
+
+### DAO Pattern
+
+Le **DAO Pattern** permet d'isoler l'accès aux données du reste de l'application.
+
+La couche Business travaille avec :
+
+```text
+StudentDao
+TrainerDao
+```
+
+et ne dépend pas directement des classes JDBC.
+
+Cela permet de changer la technologie d'accès aux données sans modifier la logique métier.
+
+---
+
+### Bridge Pattern
+
+Le projet applique également le principe du **Bridge Pattern** en séparant l'abstraction de son implémentation.
+
+Par exemple :
+
+```text
+StudentDao
+    ▲
+    │
+StudentDaoJdbc
+```
+
+La Business Layer dépend de `StudentDao` et non directement de `StudentDaoJdbc`.
+
+Cette séparation permet de faire évoluer l'implémentation indépendamment de l'abstraction.
+
+---
+
+### Dependency Inversion
+
+La couche Business dépend d'abstractions plutôt que de classes concrètes.
+
+```java
+private TrainerDao trainerDao;
+```
+
+L'implémentation est ensuite fournie à travers le constructeur :
 
 ```java
 public TrainerServiceDefault(TrainerDao trainerDao) {
@@ -276,243 +254,94 @@ public TrainerServiceDefault(TrainerDao trainerDao) {
 }
 ```
 
-Cela permet au service de dépendre de l'interface :
-
-```
-TrainerServiceDefault
-        ↓
-    TrainerDao
-        ↓
- TrainerDaoJdbc
-```
-
-Grâce à cela, il est possible de remplacer l'implémentation réelle par une implémentation Mock lors des tests.
+Le service peut ainsi fonctionner avec différentes implémentations de `TrainerDao`.
 
 ---
 
-# 🧪 Tests unitaires
+### Dependency Injection
 
-Le projet utilise **JUnit 5** pour tester la couche métier.
+Les dépendances sont injectées au moment de la création des services.
 
-Les tests utilisent un DAO Mock :
+Le câblage des composants est centralisé dans :
 
-```
-TrainerServiceTest
-        ↓
-TrainerServiceDefault
-        ↓
-TrainerDaoMock
+```text
+ApplicationContext
 ```
 
-La base de données réelle n'est donc pas nécessaire pour les tests unitaires du service.
+On obtient ainsi une chaîne de dépendances claire :
+
+```text
+DataSource
+    ↓
+Database
+    ↓
+DAO
+    ↓
+Service
+    ↓
+Action
+    ↓
+Controller
+```
 
 ---
 
-## Tests réalisés
+## 🧩 ApplicationContext
 
-Les tests couvrent notamment :
+`ApplicationContext` est responsable du câblage des différentes couches de l'application.
 
-### Lecture
+Il crée notamment :
 
-- Récupération de tous les formateurs
-- Récupération d'un formateur par ID
-- ID inexistant
-- ID invalide
+* La connexion à la base de données
+* Les DAO
+* Les Services
 
-### Création
+Cela permet d'éviter de créer directement les implémentations dans les classes métier.
 
-- Ajout d'un formateur valide
-- Formateur `null`
-- Champs obligatoires vides
-- Email invalide
-- Nom null
-- Email null
-- Spécialisation vide
-
-### Modification
-
-- Modification d'un formateur existant
-- Modification d'un formateur inexistant
-- ID invalide
-
-### Suppression
-
-- Suppression d'un formateur existant
-- Suppression d'un formateur inexistant
-- ID invalide
+Le contexte joue donc un rôle central dans la configuration de l'application.
 
 ---
 
-# 🖥️ Interface Web
+## 📦 Model
 
-L'application utilise des pages JSP pour l'interface utilisateur.
+La classe `Model` permet de transporter les données entre les Actions et les JSP.
 
-## Students
-
-Les principales pages sont :
-
-```
-students-list.jsp
-student-form.jsp
-```
-
-### Students List
-
-La page affiche :
-
-- ID
-- First Name
-- Last Name
-- Email
-- Phone
-- Actions
-
-Actions disponibles :
-
-```
-Edit
-Delete
-```
-
-Un bouton permet également d'ajouter un étudiant.
-
----
-
-### Student Form
-
-Le même formulaire est utilisé pour :
-
-```
-Add Student
-Edit Student
-```
-
-Le formulaire détecte automatiquement le mode :
+Une Action peut placer des données dans le modèle :
 
 ```java
-boolean editMode = (student != null);
+model.setModel("students", students);
 ```
 
-Si un étudiant existe dans le modèle :
+Le Controller transmet ensuite le modèle à la requête.
 
-```
-Edit Student
-```
+La JSP récupère les données nécessaires pour construire la page.
 
-Sinon :
-
-```
-Add Student
-```
+Cette approche permet de séparer les données utilisées pour l'affichage de la logique de traitement.
 
 ---
 
-# 👨‍🏫 Trainers
+## 🗄️ Base de données
 
-Les principales pages sont :
+Le projet utilise **MySQL 5.1** avec une base de données appelée :
 
-```
-trainers-list.jsp
-trainer-form.jsp
-```
-
-### Trainers List
-
-La page affiche :
-
-- ID
-- First Name
-- Last Name
-- Email
-- Specialization
-- Created At
-- Actions
-
-Actions disponibles :
-
-```
-Edit
-Delete
-```
-
----
-
-### Trainer Form
-
-Le formulaire est utilisé pour :
-
-```
-Add Trainer
-Edit Trainer
-```
-
-Les champs sont :
-
-```
-First Name
-Last Name
-Email
-Specialization
-```
-
----
-
-# 🌐 URLs principales
-
-Les routes utilisées par l'application sont organisées sous :
-
-```
-/training/
-```
-
-## Students
-
-```
-/training/students-list
-/training/student-add-form
-/training/student-add
-/training/student-edit
-/training/student-update
-/training/student-delete
-```
-
-## Trainers
-
-```
-/training/trainers-list
-/training/trainer-add-form
-/training/trainer-add
-/training/trainer-edit
-/training/trainer-update
-/training/trainer-delete
-```
-
----
-
-# 🗄️ Base de données
-
-Nom de la base :
-
-```
+```text
 training_center
 ```
 
-Tables :
+Elle contient actuellement les tables :
 
-```
+```text
 students
 trainers
 trainings
 enrollments
 ```
 
----
+### Students
 
-## Table students
+La table `students` contient les informations principales des étudiants :
 
-```
-students
---------------------------------
+```text
 id
 first_name
 last_name
@@ -521,13 +350,11 @@ phone
 created_at
 ```
 
----
+### Trainers
 
-## Table trainers
+La table `trainers` contient les informations principales des formateurs :
 
-```
-trainers
---------------------------------
+```text
 id
 first_name
 last_name
@@ -536,13 +363,11 @@ specialization
 created_at
 ```
 
----
+### Trainings
 
-## Table trainings
+La table `trainings` représente les formations et leur formateur associé.
 
-```
-trainings
---------------------------------
+```text
 id
 title
 description
@@ -551,228 +376,180 @@ trainer_id
 created_at
 ```
 
-Le champ :
+### Enrollments
 
-```
-trainer_id
-```
+La table `enrollments` représente les inscriptions des étudiants aux formations.
 
-permet d'associer une formation à un formateur.
-
----
-
-## Table enrollments
-
-```
-enrollments
---------------------------------
+```text
 id
 student_id
 training_id
 enrollment_date
 ```
 
-Cette table représente l'inscription d'un étudiant à une formation.
-
 ---
 
-# 🔗 Connexion à MySQL
+## 🧪 Tests
 
-La connexion à la base de données est centralisée grâce aux classes :
+Le projet contient des tests unitaires de la couche Business avec **JUnit 5**.
 
-```
-DataSource
-MySQLDataSource
-Database
-```
+Des DAO Mock sont utilisés afin de tester les services sans dépendre directement de la base de données.
 
-Exemple :
-
-```java
-DataSource ds =
-        new MySQLDataSource("training_center");
-
-Database db =
-        new Database(ds);
-```
-
-La classe `MySQLDataSource` configure automatiquement :
-
-```
-Driver
-Host
-Database
-Username
-Password
-```
-
----
-
-# 🗃️ Classe Database
-
-La classe `Database` fournit des méthodes génériques pour communiquer avec la base de données.
-
-Principales méthodes :
-
-```java
-executeQuery()
-executeUpdate()
-select()
-selectById()
-selectByKeyword()
-```
-
-Exemple :
-
-```java
-String[][] data = db.select("trainers");
-```
-
-Pour rechercher un élément :
-
-```java
-String[][] data =
-        db.selectById("trainers", "id", id);
-```
-
----
-
-# 🔄 Fonctionnement d'une requête
-
-Exemple pour récupérer tous les formateurs :
-
-```
-JSP
- ↓
-TrainerAction
- ↓
+```text
 TrainerService
- ↓
+       ↓
 TrainerDao
- ↓
-TrainerDaoJdbc
- ↓
-Database
- ↓
-MySQL
- ↓
-TrainerORM
- ↓
-List<Trainer>
- ↓
-Model
- ↓
-JSP
+       ↓
+TrainerDaoMock
 ```
+
+Cette approche permet de tester la logique métier de manière isolée.
+
+Les tests couvrent notamment :
+
+* Récupération des données
+* Recherche par identifiant
+* Ajout
+* Modification
+* Suppression
+* Identifiants invalides
+* Entités inexistantes
+* Champs obligatoires
+* Emails invalides
+* Gestion des valeurs nulles
 
 ---
 
-# 🛡️ Validation des données
+## ⚠️ Gestion des exceptions
 
-La validation métier est effectuée dans :
+Le projet utilise des exceptions métier personnalisées :
 
-```
-TrainerServiceDefault
-```
-
-Exemples de règles :
-
-### First Name
-
-Le prénom est obligatoire.
-
-```
-null        → invalide
-""          → invalide
-"   "       → invalide
-"Ahmed"     → valide
-```
-
-### Last Name
-
-Le nom est obligatoire.
-
-### Email
-
-L'email doit respecter un format valide.
-
-Exemple valide :
-
-```
-ahmed@gmail.com
-```
-
-Exemple invalide :
-
-```
-email-invalide
-```
-
-### Specialization
-
-La spécialisation est obligatoire.
-
----
-
-# ❗ Gestion des exceptions
-
-Le projet possède des exceptions métier :
-
-```
+```text
 StudentException
 TrainerException
 ```
 
-Exemple :
+Elles permettent à la couche Business de signaler les erreurs liées aux règles métier.
 
-```java
-throw new TrainerException(
-    "Trainer not found."
-);
-```
+Exemples :
 
-Cela permet de distinguer les erreurs métier des erreurs techniques.
-
----
-
-# 🧪 Exécution des tests
-
-Les tests peuvent être exécutés avec Maven :
-
-```bash
-mvn test
-```
-
-Pour nettoyer le projet :
-
-```bash
-mvn clean
-```
-
-Pour nettoyer puis exécuter les tests :
-
-```bash
-mvn clean test
+```text
+Student not found.
+Trainer not found.
+Invalid trainer ID.
+Email is required.
+Specialization is required.
 ```
 
 ---
 
-# ▶️ Exécution du projet
+## 📁 Structure du projet
 
-## Prérequis
-
-Avant de lancer le projet, il faut avoir :
-
-- JDK installé
-- Maven installé
-- Apache Tomcat configuré
-- MySQL installé
-- Base de données `training_center` créée
-- Driver JDBC MySQL disponible
+```text
+training-center-manager/
+│
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── org/mql/jee/
+│       │       │
+│       │       ├── jdbc/
+│       │       │   ├── Database.java
+│       │       │   ├── DataSource.java
+│       │       │   └── MySQLDataSource.java
+│       │       │
+│       │       └── trainingcenter/
+│       │           │
+│       │           ├── business/
+│       │           │   ├── StudentService.java
+│       │           │   ├── StudentServiceDefault.java
+│       │           │   ├── TrainerService.java
+│       │           │   └── TrainerServiceDefault.java
+│       │           │
+│       │           ├── context/
+│       │           │   ├── ApplicationContext.java
+│       │           │   └── Model.java
+│       │           │
+│       │           ├── dao/
+│       │           │   ├── StudentDao.java
+│       │           │   ├── StudentDaoJdbc.java
+│       │           │   ├── TrainerDao.java
+│       │           │   └── TrainerDaoJdbc.java
+│       │           │
+│       │           ├── dao/mappers/
+│       │           │   ├── StudentORM.java
+│       │           │   └── TrainerORM.java
+│       │           │
+│       │           ├── exceptions/
+│       │           │   ├── StudentException.java
+│       │           │   └── TrainerException.java
+│       │           │
+│       │           ├── models/
+│       │           │   ├── Student.java
+│       │           │   ├── Trainer.java
+│       │           │   └── Training.java
+│       │           │
+│       │           ├── tests/
+│       │           │   ├── StudentDaoMock.java
+│       │           │   ├── StudentServiceTest.java
+│       │           │   ├── TrainerDaoMock.java
+│       │           │   └── TrainerServiceTest.java
+│       │           │
+│       │           └── web/
+│       │               ├── Controller.java
+│       │               └── actions/
+│       │                   ├── StudentAction.java
+│       │                   └── TrainerAction.java
+│       │
+│       └── webapp/
+│           ├── index.jsp
+│           │
+│           ├── views/
+│           │   ├── student-form.jsp
+│           │   ├── students-list.jsp
+│           │   ├── trainer-form.jsp
+│           │   └── trainers-list.jsp
+│           │
+│           └── WEB-INF/
+│               ├── lib/
+│               │   ├── database.jar
+│               │   └── mysql.jar
+│               │
+│               └── web.xml
+│
+└── .gitignore
+```
 
 ---
 
-## Configuration de la base de données
+## ⚙️ Technologies
+
+* **Java**
+* **Jakarta EE**
+* **Servlet**
+* **JSP**
+* **JDBC**
+* **MySQL 5.1**
+* **Apache Tomcat 10**
+* **JUnit 5**
+* **Eclipse**
+* **HTML / CSS**
+* **Git / GitHub**
+
+Le projet est réalisé sans Maven afin de travailler directement avec la structure et la configuration d'un **Dynamic Web Project**.
+
+---
+
+## 🚀 Installation et exécution
+
+### Prérequis
+
+* JDK
+* Eclipse
+* Apache Tomcat 10
+* MySQL 5.1
+
+### Base de données
 
 Créer la base :
 
@@ -782,137 +559,131 @@ CREATE DATABASE training_center;
 
 Puis créer les tables nécessaires :
 
-```
+```text
 students
 trainers
 trainings
 enrollments
 ```
 
-La configuration de connexion doit correspondre aux paramètres utilisés dans :
+### Configuration
 
+La configuration de la connexion à la base de données est centralisée dans :
+
+```text
+ApplicationContext.java
 ```
-MySQLDataSource
+
+Les paramètres de connexion doivent être adaptés à l'environnement local.
+
+### Tomcat
+
+Configurer Apache Tomcat 10 dans Eclipse puis démarrer le serveur.
+
+L'application utilise le mapping :
+
+```text
+/training/*
+```
+
+Les principales routes sont notamment :
+
+```text
+/training/students-list
+/training/student-add-form
+/training/trainers-list
+/training/trainer-add-form
 ```
 
 ---
 
-# 🚀 Lancer l'application
+## 🔄 Flux d'une requête
 
-1. Démarrer MySQL.
-2. Vérifier que la base `training_center` existe.
-3. Configurer Apache Tomcat.
-4. Déployer l'application.
-5. Démarrer le serveur.
-6. Ouvrir l'application dans le navigateur.
+Exemple de consultation de la liste des formateurs :
 
-L'application utilise le contexte :
-
-```
-/training
-```
-
----
-
-# 📐 Principes appliqués
-
-Le projet applique plusieurs principes de conception.
-
-### Separation of Concerns
-
-Chaque couche possède une responsabilité spécifique.
-
-```
-JSP       → Présentation
-Action    → Gestion des requêtes
-Service   → Logique métier
-DAO       → Accès aux données
-Model     → Données métier
-```
-
-### Dependency Inversion
-
-Les services dépendent des interfaces DAO plutôt que des implémentations concrètes.
-
-```java
-private TrainerDao trainerDao;
-```
-
-### Dependency Injection
-
-Les dépendances sont injectées par constructeur.
-
-```java
-public TrainerServiceDefault(TrainerDao trainerDao) {
-    this.trainerDao = trainerDao;
-}
-```
-
-### Testability
-
-Grâce aux interfaces DAO, le DAO réel peut être remplacé par un Mock.
-
-```
+```text
+Browser
+   ↓
+Controller
+   ↓
+TrainerAction
+   ↓
+TrainerService
+   ↓
+TrainerDao
+   ↓
 TrainerDaoJdbc
-      ou
-TrainerDaoMock
+   ↓
+Database
+   ↓
+MySQL
+```
+
+Les données sont ensuite transformées en objets Java par le mapper ORM et transmises à la JSP pour l'affichage.
+
+```text
+MySQL
+   ↓
+Database
+   ↓
+TrainerDaoJdbc
+   ↓
+TrainerORM
+   ↓
+TrainerService
+   ↓
+TrainerAction
+   ↓
+Model
+   ↓
+JSP
+   ↓
+Browser
 ```
 
 ---
 
-# 📊 CRUD
+## 🎓 Objectifs pédagogiques
 
-L'application implémente les opérations CRUD.
+Ce projet permet de mettre en pratique les principaux concepts de développement d'une application web Java avec Jakarta EE :
 
-```
-CREATE
-   ↓
-Add Student / Add Trainer
+* Architecture en couches
+* MVC 2
+* Front Controller
+* DAO Pattern
+* Facade Pattern
+* Bridge Pattern
+* Dependency Inversion
+* Dependency Injection
+* Servlet
+* JSP
+* JDBC
+* Mapping objet-relationnel
+* Validation métier
+* Exceptions personnalisées
+* Tests unitaires
+* Mocking
+* Configuration d'un Dynamic Web Project
+* Déploiement avec Tomcat
 
-READ
-   ↓
-List Students / List Trainers
-
-UPDATE
-   ↓
-Edit Student / Edit Trainer
-
-DELETE
-   ↓
-Delete Student / Delete Trainer
-```
-
----
-
-# 📚 Concepts étudiés
-
-Ce projet permet de mettre en pratique :
-
-- Java
-- Jakarta EE
-- Servlets
-- JSP
-- MVC
-- JDBC
-- DAO
-- Service Layer
-- Dependency Injection
-- Dependency Inversion
-- ORM Mapping
-- MySQL
-- Maven
-- JUnit 5
-- Unit Testing
-- Mocking
-- CRUD
-- Git
+L'objectif principal est de comprendre comment les différentes couches d'une application web collaborent tout en restant indépendantes les unes des autres.
 
 ---
 
-# 👤 Auteur
+## 👨‍💻 Auteur
 
 **Boteina JBEL**
 
 Master Qualité du Logiciel
 
-Projet académique Jakarta EE / JDBC
+GitHub :
+[https://github.com/Boteina-jbel](https://github.com/Boteina-jbel)
+
+---
+
+## 📚 Références
+
+* Jakarta EE / Servlet : [https://jakarta.ee/specifications/servlet/](https://jakarta.ee/specifications/servlet/)
+* Apache Tomcat : [https://tomcat.apache.org/tomcat-10.0-doc/](https://tomcat.apache.org/tomcat-10.0-doc/)
+* MySQL Documentation : [https://dev.mysql.com/doc/](https://dev.mysql.com/doc/)
+* JUnit 5 : [https://junit.org/junit5/docs/current/user-guide/](https://junit.org/junit5/docs/current/user-guide/)
