@@ -136,7 +136,8 @@ Le projet met en pratique plusieurs concepts d'architecture logicielle et de con
 
 La couche Web de l'application repose sur le pattern **MVC 2**.
 
-Un **Front Controller (Servlet)** reçoit toutes les requêtes et les délègue à l'**Action** appropriée. Les Actions assurent le traitement de la requête en utilisant les services de la couche Business.
+Un **Front Controller (Servlet)** reçoit toutes les requêtes et les délègue à l'**Action** appropriée. Au lieu d'avoir plusieurs Servlets indépendants, les requêtes passent par un Controller central qui détermine l'action à exécuter.
+Les Actions assurent le traitement de la requête en utilisant les services de la couche Business.
 
 Les **JSP** constituent les vues et sont utilisées pour présenter les données du modèle à l'utilisateur.
 
@@ -146,26 +147,6 @@ Ainsi, MVC 2 permet de centraliser le traitement des requêtes tout en séparant
 - **Actions** : traitement des opérations
 - **Model** : données manipulées par l'application
 - **JSP** : présentation des données
-
-### Front Controller
-
-Le Servlet `Controller` constitue le point d'entrée principal des requêtes web.
-
-Au lieu d'avoir plusieurs Servlets indépendants, les requêtes passent par un Controller central qui détermine l'action à exécuter.
-
-```text
-Browser
-   ↓
-Controller
-   ↓
-Action
-   ↓
-Business
-```
-
-Cela centralise la gestion des requêtes et simplifie l'organisation de la couche Web.
-
----
 
 ### Facade Pattern
 
