@@ -58,17 +58,13 @@ Le projet adopte une architecture en couches permettant de séparer clairement l
 
 ### Web Layer
 
-La couche Web est responsable de la réception des requêtes, de leur traitement et de la présentation des données.
+La couche Web est responsable de la réception des requêtes et de la présentation des données. Elle met en œuvre le pattern **MVC 2** :
 
-Elle comprend :
+- Un **Front Controller** central reçoit toutes les requêtes et les délègue aux **Actions** appropriées.
+- Les **Actions** assurent le traitement et communiquent avec la couche Business.
+- Les **JSP** constituent les vues chargées de présenter les données.
 
-* Un **Controller** central
-* Des classes **Action**
-* Des vues **JSP**
-
-Le Controller joue le rôle de **Front Controller** et dirige les requêtes vers les actions appropriées.
-
-Les Actions servent d'intermédiaires entre la couche Web et la couche Business.
+Cette organisation permet de séparer clairement la réception des requêtes, le traitement et la présentation.
 
 ---
 
