@@ -461,54 +461,26 @@ training-center-manager/
 │       │       └── trainingcenter/
 │       │           │
 │       │           ├── business/
-│       │           │   ├── StudentService.java
-│       │           │   ├── StudentServiceDefault.java
-│       │           │   ├── TrainerService.java
-│       │           │   └── TrainerServiceDefault.java
 │       │           │
 │       │           ├── context/
-│       │           │   ├── ApplicationContext.java
-│       │           │   └── Model.java
 │       │           │
 │       │           ├── dao/
-│       │           │   ├── StudentDao.java
-│       │           │   ├── StudentDaoJdbc.java
-│       │           │   ├── TrainerDao.java
-│       │           │   └── TrainerDaoJdbc.java
 │       │           │
 │       │           ├── dao/mappers/
-│       │           │   ├── StudentORM.java
-│       │           │   └── TrainerORM.java
 │       │           │
 │       │           ├── exceptions/
-│       │           │   ├── StudentException.java
-│       │           │   └── TrainerException.java
 │       │           │
 │       │           ├── models/
-│       │           │   ├── Student.java
-│       │           │   ├── Trainer.java
-│       │           │   └── Training.java
 │       │           │
 │       │           ├── tests/
-│       │           │   ├── StudentDaoMock.java
-│       │           │   ├── StudentServiceTest.java
-│       │           │   ├── TrainerDaoMock.java
-│       │           │   └── TrainerServiceTest.java
 │       │           │
 │       │           └── web/
-│       │               ├── Controller.java
 │       │               └── actions/
-│       │                   ├── StudentAction.java
-│       │                   └── TrainerAction.java
 │       │
 │       └── webapp/
 │           ├── index.jsp
 │           │
 │           ├── views/
-│           │   ├── student-form.jsp
-│           │   ├── students-list.jsp
-│           │   ├── trainer-form.jsp
-│           │   └── trainers-list.jsp
 │           │
 │           └── WEB-INF/
 │               ├── lib/
