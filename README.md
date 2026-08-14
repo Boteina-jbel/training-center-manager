@@ -611,12 +611,3 @@ Master Qualité du Logiciel
 
 GitHub :
 [https://github.com/Boteina-jbel](https://github.com/Boteina-jbel)
-
----
-
-## 📚 Références
-
-* Jakarta EE / Servlet : [https://jakarta.ee/specifications/servlet/](https://jakarta.ee/specifications/servlet/)
-* Apache Tomcat : [https://tomcat.apache.org/tomcat-10.0-doc/](https://tomcat.apache.org/tomcat-10.0-doc/)
-* MySQL Documentation : [https://dev.mysql.com/doc/](https://dev.mysql.com/doc/)
-* JUnit 5 : [https://junit.org/junit5/docs/current/user-guide/](https://junit.org/junit5/docs/current/user-guide/)
