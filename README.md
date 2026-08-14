@@ -132,35 +132,20 @@ Java Object
 
 Le projet met en pratique plusieurs concepts d'architecture logicielle et de conception étudiés en Jakarta EE.
 
-### MVC 2
+## MVC 2
 
-L'application suit une architecture **MVC 2** :
+La couche Web de l'application repose sur le pattern **MVC 2**.
 
-```text
-Model
-   │
-   ├── Student
-   ├── Trainer
-   └── autres modèles
+Un **Front Controller (Servlet)** reçoit toutes les requêtes et les délègue à l'**Action** appropriée. Les Actions assurent le traitement de la requête en utilisant les services de la couche Business.
 
-View
-   │
-   └── JSP
+Les **JSP** constituent les vues et sont utilisées pour présenter les données du modèle à l'utilisateur.
 
-Controller
-   │
-   └── Servlet
-```
+Ainsi, MVC 2 permet de centraliser le traitement des requêtes tout en séparant clairement :
 
-Le Controller reçoit les requêtes, les transmet aux Actions et prépare les données nécessaires aux JSP.
-
-Cette organisation permet de séparer :
-
-* La présentation
-* Le traitement
-* Les données
-
----
+- **Front Controller** : réception et délégation des requêtes
+- **Actions** : traitement des opérations
+- **Model** : données manipulées par l'application
+- **JSP** : présentation des données
 
 ### Front Controller
 
@@ -461,19 +446,12 @@ training-center-manager/
 │       │       └── trainingcenter/
 │       │           │
 │       │           ├── business/
-│       │           │
 │       │           ├── context/
-│       │           │
 │       │           ├── dao/
-│       │           │
 │       │           ├── dao/mappers/
-│       │           │
 │       │           ├── exceptions/
-│       │           │
 │       │           ├── models/
-│       │           │
 │       │           ├── tests/
-│       │           │
 │       │           └── web/
 │       │               └── actions/
 │       │
