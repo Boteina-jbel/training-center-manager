@@ -132,7 +132,7 @@ Java Object
 
 Le projet met en pratique plusieurs concepts d'architecture logicielle et de conception étudiés en Jakarta EE.
 
-## MVC 2
+### MVC 2
 
 La couche Web de l'application repose sur le pattern **MVC 2**.
 
