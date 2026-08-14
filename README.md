@@ -148,6 +148,8 @@ Ainsi, MVC 2 permet de centraliser le traitement des requêtes tout en séparant
 - **Model** : données manipulées par l'application
 - **JSP** : présentation des données
 
+---
+
 ### Facade Pattern
 
 Les classes `StudentAction` et `TrainerAction` utilisent les interfaces de la couche Business.
