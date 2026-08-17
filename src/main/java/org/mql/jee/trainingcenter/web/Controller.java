@@ -49,12 +49,9 @@ public class Controller extends HttpServlet {
         String uri = request.getRequestURI();
 
         String view = "error";
-
         Model model = new Model();
 
-        // =================================================
-        // STUDENT
-        // =================================================
+        // ================= STUDENT =================
 
         if (uri.endsWith("/students-list")) {
 
@@ -68,14 +65,9 @@ public class Controller extends HttpServlet {
 
             int id = getId(request);
 
-            view = studentAction.studentEditForm(
-                    id,
-                    model
-            );
+            view = studentAction.studentEditForm(id, model);
 
-        // =================================================
-        // TRAINER
-        // =================================================
+        // ================= TRAINER =================
 
         } else if (uri.endsWith("/trainers-list")) {
 
@@ -89,10 +81,7 @@ public class Controller extends HttpServlet {
 
             int id = getId(request);
 
-            view = trainerAction.trainerEditForm(
-                    id,
-                    model
-            );
+            view = trainerAction.trainerEditForm(id, model);
         }
 
         forward(request, response, view, model);
@@ -111,12 +100,9 @@ public class Controller extends HttpServlet {
         String uri = request.getRequestURI();
 
         String view = "error";
-
         Model model = new Model();
 
-        // =================================================
-        // STUDENT
-        // =================================================
+        // ================= STUDENT =================
 
         if (uri.endsWith("/student-add")) {
 
@@ -172,16 +158,12 @@ public class Controller extends HttpServlet {
 
         } else if (uri.endsWith("/student-delete")) {
 
-            int id = getId(request);
-
             view = studentAction.deleteStudent(
-                    id,
+                    getId(request),
                     model
             );
 
-        // =================================================
-        // TRAINER
-        // =================================================
+        // ================= TRAINER =================
 
         } else if (uri.endsWith("/trainer-add")) {
 
@@ -237,10 +219,8 @@ public class Controller extends HttpServlet {
 
         } else if (uri.endsWith("/trainer-delete")) {
 
-            int id = getId(request);
-
             view = trainerAction.deleteTrainer(
-                    id,
+                    getId(request),
                     model
             );
         }
@@ -254,9 +234,21 @@ public class Controller extends HttpServlet {
 
     private int getId(HttpServletRequest request) {
 
-        return Integer.parseInt(
-                request.getParameter("id")
-        );
+        String id = request.getParameter("id");
+
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("ID is required.");
+        }
+
+        try {
+            return Integer.parseInt(id);
+
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Invalid ID format.",
+                    e
+            );
+        }
     }
 
     // =====================================================
