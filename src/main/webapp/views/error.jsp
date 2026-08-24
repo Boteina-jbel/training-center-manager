@@ -3,7 +3,9 @@
     pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
@@ -14,7 +16,7 @@
     <h1>Une erreur est survenue</h1>
 
     <p>
-        ${errorMessage}
+        ${model.getModel("error")}
     </p>
 
     <a href="${pageContext.request.contextPath}/training/students-list">
@@ -22,4 +24,5 @@
     </a>
 
 </body>
+
 </html>

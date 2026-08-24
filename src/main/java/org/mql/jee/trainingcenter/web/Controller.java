@@ -3,6 +3,8 @@ package org.mql.jee.trainingcenter.web;
 import java.io.IOException;
 
 import org.mql.jee.trainingcenter.context.Model;
+import org.mql.jee.trainingcenter.exceptions.StudentException;
+import org.mql.jee.trainingcenter.exceptions.TrainerException;
 import org.mql.jee.trainingcenter.models.Student;
 import org.mql.jee.trainingcenter.models.Trainer;
 import org.mql.jee.trainingcenter.web.actions.StudentAction;
@@ -49,39 +51,59 @@ public class Controller extends HttpServlet {
         String uri = request.getRequestURI();
 
         String view = "error";
+
         Model model = new Model();
 
-        // ================= STUDENT =================
+        try {
 
-        if (uri.endsWith("/students-list")) {
+            // =================================================
+            // STUDENT
+            // =================================================
 
-            view = studentAction.studentsList(model);
+            if (uri.endsWith("/students-list")) {
 
-        } else if (uri.endsWith("/student-add-form")) {
+                view = studentAction.studentsList(model);
 
-            view = studentAction.studentAddForm(model);
+            } else if (uri.endsWith("/student-add-form")) {
 
-        } else if (uri.endsWith("/student-edit")) {
+                view = studentAction.studentAddForm(model);
 
-            int id = getId(request);
+            } else if (uri.endsWith("/student-edit")) {
 
-            view = studentAction.studentEditForm(id, model);
+                int id = getId(request);
 
-        // ================= TRAINER =================
+                view = studentAction.studentEditForm(
+                        id,
+                        model
+                );
 
-        } else if (uri.endsWith("/trainers-list")) {
+            // =================================================
+            // TRAINER
+            // =================================================
 
-            view = trainerAction.trainersList(model);
+            } else if (uri.endsWith("/trainers-list")) {
 
-        } else if (uri.endsWith("/trainer-add-form")) {
+                view = trainerAction.trainersList(model);
 
-            view = trainerAction.trainerAddForm(model);
+            } else if (uri.endsWith("/trainer-add-form")) {
 
-        } else if (uri.endsWith("/trainer-edit")) {
+                view = trainerAction.trainerAddForm(model);
 
-            int id = getId(request);
+            } else if (uri.endsWith("/trainer-edit")) {
 
-            view = trainerAction.trainerEditForm(id, model);
+                int id = getId(request);
+
+                view = trainerAction.trainerEditForm(
+                        id,
+                        model
+                );
+            }
+
+        } catch (StudentException | TrainerException e) {
+
+            handleException(model, e);
+
+            view = "error";
         }
 
         forward(request, response, view, model);
@@ -100,129 +122,151 @@ public class Controller extends HttpServlet {
         String uri = request.getRequestURI();
 
         String view = "error";
+
         Model model = new Model();
 
-        // ================= STUDENT =================
+        try {
 
-        if (uri.endsWith("/student-add")) {
+            // =================================================
+            // STUDENT
+            // =================================================
 
-            Student student = new Student();
+            if (uri.endsWith("/student-add")) {
 
-            student.setFirstName(
-                    request.getParameter("firstName")
-            );
+                Student student = new Student();
 
-            student.setLastName(
-                    request.getParameter("lastName")
-            );
+                student.setFirstName(
+                        request.getParameter("firstName")
+                );
 
-            student.setEmail(
-                    request.getParameter("email")
-            );
+                student.setLastName(
+                        request.getParameter("lastName")
+                );
 
-            student.setPhone(
-                    request.getParameter("phone")
-            );
+                student.setEmail(
+                        request.getParameter("email")
+                );
 
-            view = studentAction.addStudent(
-                    student,
-                    model
-            );
+                student.setPhone(
+                        request.getParameter("phone")
+                );
 
-        } else if (uri.endsWith("/student-update")) {
+                view = studentAction.addStudent(
+                        student,
+                        model
+                );
 
-            Student student = new Student();
+            } else if (uri.endsWith("/student-update")) {
 
-            student.setId(getId(request));
+                Student student = new Student();
 
-            student.setFirstName(
-                    request.getParameter("firstName")
-            );
+                student.setId(
+                        getId(request)
+                );
 
-            student.setLastName(
-                    request.getParameter("lastName")
-            );
+                student.setFirstName(
+                        request.getParameter("firstName")
+                );
 
-            student.setEmail(
-                    request.getParameter("email")
-            );
+                student.setLastName(
+                        request.getParameter("lastName")
+                );
 
-            student.setPhone(
-                    request.getParameter("phone")
-            );
+                student.setEmail(
+                        request.getParameter("email")
+                );
 
-            view = studentAction.updateStudent(
-                    student,
-                    model
-            );
+                student.setPhone(
+                        request.getParameter("phone")
+                );
 
-        } else if (uri.endsWith("/student-delete")) {
+                view = studentAction.updateStudent(
+                        student,
+                        model
+                );
 
-            view = studentAction.deleteStudent(
-                    getId(request),
-                    model
-            );
+            } else if (uri.endsWith("/student-delete")) {
 
-        // ================= TRAINER =================
+                int id = getId(request);
 
-        } else if (uri.endsWith("/trainer-add")) {
+                view = studentAction.deleteStudent(
+                        id,
+                        model
+                );
 
-            Trainer trainer = new Trainer();
+            // =================================================
+            // TRAINER
+            // =================================================
 
-            trainer.setFirstName(
-                    request.getParameter("firstName")
-            );
+            } else if (uri.endsWith("/trainer-add")) {
 
-            trainer.setLastName(
-                    request.getParameter("lastName")
-            );
+                Trainer trainer = new Trainer();
 
-            trainer.setEmail(
-                    request.getParameter("email")
-            );
+                trainer.setFirstName(
+                        request.getParameter("firstName")
+                );
 
-            trainer.setSpecialization(
-                    request.getParameter("specialization")
-            );
+                trainer.setLastName(
+                        request.getParameter("lastName")
+                );
 
-            view = trainerAction.addTrainer(
-                    trainer,
-                    model
-            );
+                trainer.setEmail(
+                        request.getParameter("email")
+                );
 
-        } else if (uri.endsWith("/trainer-update")) {
+                trainer.setSpecialization(
+                        request.getParameter("specialization")
+                );
 
-            Trainer trainer = new Trainer();
+                view = trainerAction.addTrainer(
+                        trainer,
+                        model
+                );
 
-            trainer.setId(getId(request));
+            } else if (uri.endsWith("/trainer-update")) {
 
-            trainer.setFirstName(
-                    request.getParameter("firstName")
-            );
+                Trainer trainer = new Trainer();
 
-            trainer.setLastName(
-                    request.getParameter("lastName")
-            );
+                trainer.setId(
+                        getId(request)
+                );
 
-            trainer.setEmail(
-                    request.getParameter("email")
-            );
+                trainer.setFirstName(
+                        request.getParameter("firstName")
+                );
 
-            trainer.setSpecialization(
-                    request.getParameter("specialization")
-            );
+                trainer.setLastName(
+                        request.getParameter("lastName")
+                );
 
-            view = trainerAction.updateTrainer(
-                    trainer,
-                    model
-            );
+                trainer.setEmail(
+                        request.getParameter("email")
+                );
 
-        } else if (uri.endsWith("/trainer-delete")) {
+                trainer.setSpecialization(
+                        request.getParameter("specialization")
+                );
 
-            view = trainerAction.deleteTrainer(
-                    getId(request),
-                    model
-            );
+                view = trainerAction.updateTrainer(
+                        trainer,
+                        model
+                );
+
+            } else if (uri.endsWith("/trainer-delete")) {
+
+                int id = getId(request);
+
+                view = trainerAction.deleteTrainer(
+                        id,
+                        model
+                );
+            }
+
+        } catch (StudentException | TrainerException e) {
+
+            handleException(model, e);
+
+            view = "error";
         }
 
         forward(request, response, view, model);
@@ -234,21 +278,23 @@ public class Controller extends HttpServlet {
 
     private int getId(HttpServletRequest request) {
 
-        String id = request.getParameter("id");
+        return Integer.parseInt(
+                request.getParameter("id")
+        );
+    }
 
-        if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("ID is required.");
-        }
+    // =====================================================
+    // EXCEPTION HANDLING
+    // =====================================================
 
-        try {
-            return Integer.parseInt(id);
+    private void handleException(
+            Model model,
+            Exception exception) {
 
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "Invalid ID format.",
-                    e
-            );
-        }
+        model.setModel(
+                "error",
+                exception.getMessage()
+        );
     }
 
     // =====================================================
