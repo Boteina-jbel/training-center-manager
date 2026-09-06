@@ -2,18 +2,23 @@ package org.mql.jee.trainingcenter.web.actions;
 
 import java.util.List;
 
+import org.mql.jee.trainingcenter.business.TrainerService;
 import org.mql.jee.trainingcenter.business.TrainingService;
 import org.mql.jee.trainingcenter.context.ApplicationContext;
 import org.mql.jee.trainingcenter.context.Model;
+import org.mql.jee.trainingcenter.models.Trainer;
 import org.mql.jee.trainingcenter.models.Training;
 
 public class TrainingAction {
 
     private TrainingService service;
+    private TrainerService trainerService;
 
     public TrainingAction() {
         super();
+
         service = ApplicationContext.getTrainingService();
+        trainerService = ApplicationContext.getTrainerService();
     }
 
     // =====================================================
@@ -39,6 +44,10 @@ public class TrainingAction {
 
         System.out.println(">> Action : trainingAddForm()");
 
+        List<Trainer> trainers = trainerService.getAllTrainers();
+
+        model.setModel("trainers", trainers);
+
         return "training-form";
     }
 
@@ -46,7 +55,9 @@ public class TrainingAction {
     // CREATE - Add training
     // =====================================================
 
-    public String addTraining(Training training, Model model) {
+    public String addTraining(
+            Training training,
+            Model model) {
 
         System.out.println(">> Action : addTraining()");
 
@@ -59,13 +70,18 @@ public class TrainingAction {
     // UPDATE - Show edit form
     // =====================================================
 
-    public String trainingEditForm(int id, Model model) {
+    public String trainingEditForm(
+            int id,
+            Model model) {
 
         System.out.println(">> Action : trainingEditForm()");
 
         Training training = service.getTrainingById(id);
 
+        List<Trainer> trainers = trainerService.getAllTrainers();
+
         model.setModel("training", training);
+        model.setModel("trainers", trainers);
 
         return "training-form";
     }
@@ -74,7 +90,9 @@ public class TrainingAction {
     // UPDATE - Update training
     // =====================================================
 
-    public String updateTraining(Training training, Model model) {
+    public String updateTraining(
+            Training training,
+            Model model) {
 
         System.out.println(">> Action : updateTraining()");
 
@@ -87,7 +105,9 @@ public class TrainingAction {
     // DELETE - Delete training
     // =====================================================
 
-    public String deleteTraining(int id, Model model) {
+    public String deleteTraining(
+            int id,
+            Model model) {
 
         System.out.println(">> Action : deleteTraining()");
 
