@@ -134,23 +134,16 @@
 
                 <td>
 
-                    <%
-                        Trainer trainer = training.getTrainer();
+                    <% if (training.getTrainer() != null) { %>
 
-                        if (trainer != null) {
-                    %>
-
-                        Trainer #<%= trainer.getId() %>
-
-                    <%
-                        } else {
-                    %>
-
-                        Aucun formateur
-
-                    <%
-                        }
-                    %>
+					    <%= training.getTrainer().getFirstName() %>
+					    <%= training.getTrainer().getLastName() %>
+					
+					<% } else { %>
+					
+					    Aucun formateur
+					
+					<% } %>
 
                 </td>
 

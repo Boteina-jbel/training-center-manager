@@ -18,7 +18,13 @@ public class TrainingDaoJdbc implements TrainingDao {
     @Override
     public List<Training> selectAll() {
 
-        String data[][] = db.select(tableName);
+        String query =
+            "SELECT t.id, t.title, t.description, t.duration, " +
+            "tr.id, tr.first_name, tr.last_name, t.created_at " +
+            "FROM trainings t " +
+            "LEFT JOIN trainers tr ON t.trainer_id = tr.id";
+
+        String[][] data = db.executeQuery(query);
 
         return TrainingORM.getTrainingsList(data);
     }
@@ -26,8 +32,14 @@ public class TrainingDaoJdbc implements TrainingDao {
     @Override
     public Training selectById(int id) {
 
-        String[][] data =
-                db.selectById(tableName, "id", id);
+        String query =
+            "SELECT t.id, t.title, t.description, t.duration, " +
+            "tr.id, tr.first_name, tr.last_name, t.created_at " +
+            "FROM trainings t " +
+            "LEFT JOIN trainers tr ON t.trainer_id = tr.id " +
+            "WHERE t.id = " + id;
+
+        String[][] data = db.executeQuery(query);
 
         if (data == null || data.length == 0) {
             return null;

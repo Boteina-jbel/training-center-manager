@@ -9,34 +9,38 @@ import org.mql.jee.trainingcenter.models.Training;
 
 public class TrainingORM {
 
-    public static Training getTraining(String... row) {
+	public static Training getTraining(String... row) {
 
-        Training training = new Training();
+	    Training training = new Training();
 
-        training.setId(getInt(row[0]));
-        training.setTitle(row[1]);
-        training.setDescription(row[2]);
-        training.setDuration(getInt(row[3]));
+	    training.setId(getInt(row[0]));
+	    training.setTitle(row[1]);
+	    training.setDescription(row[2]);
+	    training.setDuration(getInt(row[3]));
 
-        // Trainer
-        if (row.length > 4 && row[4] != null) {
+	    if (row.length > 4 && row[4] != null) {
 
-            Trainer trainer = new Trainer();
+	        Trainer trainer = new Trainer();
 
-            trainer.setId(getInt(row[4]));
+	        trainer.setId(getInt(row[4]));
 
-            training.setTrainer(trainer);
-        }
+	        if (row.length > 5) {
+	            trainer.setFirstName(row[5]);
+	        }
 
-        // CreatedAt
-        if (row.length > 5 && row[5] != null) {
-            training.setCreatedAt(
-                Timestamp.valueOf(row[5])
-            );
-        }
+	        if (row.length > 6) {
+	            trainer.setLastName(row[6]);
+	        }
 
-        return training;
-    }
+	        training.setTrainer(trainer);
+	    }
+
+	    if (row.length > 7 && row[7] != null) {
+	        training.setCreatedAt(Timestamp.valueOf(row[7]));
+	    }
+
+	    return training;
+	}
 
     public static List<Training> getTrainingsList(String[][] data) {
 
