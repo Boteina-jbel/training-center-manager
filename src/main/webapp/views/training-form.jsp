@@ -5,11 +5,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="org.mql.jee.trainingcenter.models.Training" %>
 <%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
+<%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
 <%
-    org.mql.jee.trainingcenter.context.Model model =
-            (org.mql.jee.trainingcenter.context.Model)
-            request.getAttribute("model");
+    Model model = (Model) request.getAttribute("model");
 
     Training training =
             (Training) model.getModel("training");
@@ -36,7 +35,7 @@
     <meta charset="UTF-8">
 
     <title>
-        <%= edit ? "Modifier une formation" : "Ajouter une formation" %>
+        <%= edit ? "Edit Training" : "Add Training" %>
     </title>
 
     <style>
@@ -85,7 +84,7 @@
 <body>
 
     <h1>
-        <%= edit ? "Modifier une formation" : "Ajouter une formation" %>
+        <%= edit ? "Edit Training" : "Add Training" %>
     </h1>
 
     <form
@@ -102,10 +101,8 @@
         <% } %>
 
 
-        <!-- TITLE -->
-
         <label for="title">
-            Titre :
+            Title:
         </label>
 
         <input
@@ -116,10 +113,8 @@
             value="<%= edit ? training.getTitle() : "" %>">
 
 
-        <!-- DESCRIPTION -->
-
         <label for="description">
-            Description :
+            Description:
         </label>
 
         <textarea
@@ -128,10 +123,8 @@
             required><%= edit ? training.getDescription() : "" %></textarea>
 
 
-        <!-- DURATION -->
-
         <label for="duration">
-            Durée (heures) :
+            Duration (hours):
         </label>
 
         <input
@@ -143,10 +136,8 @@
             value="<%= edit ? training.getDuration() : "" %>">
 
 
-        <!-- TRAINER -->
-
         <label for="trainerId">
-            Formateur :
+            Trainer:
         </label>
 
         <select
@@ -155,10 +146,12 @@
             required>
 
             <option value="">
-                -- Sélectionner un formateur --
+                -- Select a trainer --
             </option>
 
-            <% for (Trainer trainer : trainers) { %>
+            <%
+                for (Trainer trainer : trainers) {
+            %>
 
                 <option
                     value="<%= trainer.getId() %>"
@@ -181,14 +174,16 @@
 
                 </option>
 
-            <% } %>
+            <%
+                }
+            %>
 
         </select>
 
 
         <button type="submit">
 
-            <%= edit ? "Modifier" : "Ajouter" %>
+            <%= edit ? "Update Training" : "Add Training" %>
 
         </button>
 
@@ -197,9 +192,9 @@
 
     <a
         class="back"
-        href="${pageContext.request.contextPath}/training/trainings-list">
+        href="<%= request.getContextPath() %>/training/trainings-list">
 
-        ← Retour à la liste
+        ← Back to List
 
     </a>
 

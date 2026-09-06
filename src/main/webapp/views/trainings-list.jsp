@@ -4,13 +4,10 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="org.mql.jee.trainingcenter.models.Training" %>
-<%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
+<%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
 <%
-    Object modelObject = request.getAttribute("model");
-
-    org.mql.jee.trainingcenter.context.Model model =
-            (org.mql.jee.trainingcenter.context.Model) modelObject;
+    Model model = (Model) request.getAttribute("model");
 
     List<Training> trainings =
             (List<Training>) model.getModel("trainings");
@@ -23,7 +20,7 @@
 
     <meta charset="UTF-8">
 
-    <title>Trainings</title>
+    <title>Trainings List</title>
 
     <style>
 
@@ -36,34 +33,53 @@
             margin-bottom: 20px;
         }
 
-        .actions {
+        .add-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
             margin-bottom: 20px;
         }
 
-        a {
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-        .btn {
-            padding: 8px 12px;
-            border: 1px solid #333;
-            border-radius: 4px;
-        }
-
         table {
-            width: 100%;
             border-collapse: collapse;
+            width: 100%;
         }
 
         th, td {
-            padding: 10px;
             border: 1px solid #ccc;
+            padding: 10px;
             text-align: left;
         }
 
         th {
             background-color: #f2f2f2;
+        }
+
+        .edit-button {
+            color: #1976d2;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .delete-button {
+            color: #d32f2f;
+            text-decoration: none;
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: inherit;
+        }
+
+        .navigation {
+            margin-bottom: 20px;
+        }
+
+        .navigation a {
+            margin-right: 15px;
+            text-decoration: none;
         }
 
     </style>
@@ -72,114 +88,131 @@
 
 <body>
 
-    <h1>Liste des formations</h1>
+    <h1>Trainings List</h1>
 
-    <div class="actions">
+    <a class="add-button"
+       href="<%= request.getContextPath() %>/training/training-add-form">
 
-        <a class="btn"
-           href="${pageContext.request.contextPath}/training/training-add-form">
-            Ajouter une formation
+        + Add Training
+
+    </a>
+
+    <div class="navigation">
+
+        <a href="<%= request.getContextPath() %>/training/students-list">
+            Students
         </a>
 
-        <a class="btn"
-           href="${pageContext.request.contextPath}/training/students-list">
-            Étudiants
-        </a>
-
-        <a class="btn"
-           href="${pageContext.request.contextPath}/training/trainers-list">
-            Formateurs
+        <a href="<%= request.getContextPath() %>/training/trainers-list">
+            Trainers
         </a>
 
     </div>
 
     <table>
 
-        <thead>
+        <tr>
 
-            <tr>
+            <th>ID</th>
 
-                <th>ID</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Durée</th>
-                <th>Formateur</th>
-                <th>Actions</th>
+            <th>Title</th>
 
-            </tr>
+            <th>Description</th>
 
-        </thead>
+            <th>Duration</th>
 
-        <tbody>
+            <th>Trainer</th>
 
-        <% for (Training training : trainings) { %>
+            <th>Actions</th>
 
-            <tr>
+        </tr>
 
-                <td>
-                    <%= training.getId() %>
-                </td>
+        <%
+            if (trainings != null && !trainings.isEmpty()) {
 
-                <td>
-                    <%= training.getTitle() %>
-                </td>
+                for (Training training : trainings) {
+        %>
 
-                <td>
-                    <%= training.getDescription() %>
-                </td>
+        <tr>
 
-                <td>
-                    <%= training.getDuration() %> h
-                </td>
+            <td>
+                <%= training.getId() %>
+            </td>
 
-                <td>
+            <td>
+                <%= training.getTitle() %>
+            </td>
 
-                    <% if (training.getTrainer() != null) { %>
+            <td>
+                <%= training.getDescription() %>
+            </td>
 
-					    <%= training.getTrainer().getFirstName() %>
-					    <%= training.getTrainer().getLastName() %>
-					
-					<% } else { %>
-					
-					    Aucun formateur
-					
-					<% } %>
+            <td>
+                <%= training.getDuration() %> hours
+            </td>
 
-                </td>
+            <td>
 
-                <td>
+                <% if (training.getTrainer() != null) { %>
 
-                    <a href="${pageContext.request.contextPath}/training/training-edit?id=<%= training.getId() %>">
-                        Modifier
-                    </a>
+                    <%= training.getTrainer().getFirstName() %>
+                    <%= training.getTrainer().getLastName() %>
 
-                    <form
-                        action="${pageContext.request.contextPath}/training/training-delete"
-                        method="post"
-                        style="display:inline;">
+                <% } else { %>
 
-                        <input
-                            type="hidden"
-                            name="id"
-                            value="<%= training.getId() %>">
+                    No trainer assigned
 
-                        <button
-                            type="submit"
-                            onclick="return confirm('Voulez-vous vraiment supprimer cette formation ?');">
+                <% } %>
 
-                            Supprimer
+            </td>
 
-                        </button>
+            <td>
 
-                    </form>
+                <a class="edit-button"
+                   href="<%= request.getContextPath() %>/training/training-edit?id=<%= training.getId() %>">
 
-                </td>
+                    ✏️ Edit
 
-            </tr>
+                </a>
 
-        <% } %>
+                <form method="post"
+                      action="<%= request.getContextPath() %>/training/training-delete"
+                      style="display:inline;"
+                      onsubmit="return confirm('Are you sure you want to delete this training?');">
 
-        </tbody>
+                    <input type="hidden"
+                           name="id"
+                           value="<%= training.getId() %>">
+
+                    <button class="delete-button" type="submit">
+
+                        🗑️ Delete
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        <%
+                }
+
+            } else {
+        %>
+
+        <tr>
+
+            <td colspan="6">
+                No trainings found.
+            </td>
+
+        </tr>
+
+        <%
+            }
+        %>
 
     </table>
 
