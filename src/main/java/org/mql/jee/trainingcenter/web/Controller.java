@@ -3,12 +3,18 @@ package org.mql.jee.trainingcenter.web;
 import java.io.IOException;
 
 import org.mql.jee.trainingcenter.context.Model;
+
 import org.mql.jee.trainingcenter.exceptions.StudentException;
 import org.mql.jee.trainingcenter.exceptions.TrainerException;
+import org.mql.jee.trainingcenter.exceptions.TrainingException;
+
 import org.mql.jee.trainingcenter.models.Student;
 import org.mql.jee.trainingcenter.models.Trainer;
+import org.mql.jee.trainingcenter.models.Training;
+
 import org.mql.jee.trainingcenter.web.actions.StudentAction;
 import org.mql.jee.trainingcenter.web.actions.TrainerAction;
+import org.mql.jee.trainingcenter.web.actions.TrainingAction;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +31,7 @@ public class Controller extends HttpServlet {
 
     private StudentAction studentAction;
     private TrainerAction trainerAction;
+    private TrainingAction trainingAction;
 
     @Override
     public void init() throws ServletException {
@@ -36,6 +43,7 @@ public class Controller extends HttpServlet {
 
         studentAction = new StudentAction();
         trainerAction = new TrainerAction();
+        trainingAction = new TrainingAction();
     }
 
     // =====================================================
@@ -72,10 +80,7 @@ public class Controller extends HttpServlet {
 
                 int id = getId(request);
 
-                view = studentAction.studentEditForm(
-                        id,
-                        model
-                );
+                view = studentAction.studentEditForm(id, model);
 
             // =================================================
             // TRAINER
@@ -93,15 +98,36 @@ public class Controller extends HttpServlet {
 
                 int id = getId(request);
 
-                view = trainerAction.trainerEditForm(
-                        id,
-                        model
-                );
+                view = trainerAction.trainerEditForm(id, model);
+
+            // =================================================
+            // TRAINING
+            // =================================================
+
+            } else if (uri.endsWith("/trainings-list")) {
+
+                view = trainingAction.trainingsList(model);
+
+            } else if (uri.endsWith("/training-add-form")) {
+
+                view = trainingAction.trainingAddForm(model);
+
+            } else if (uri.endsWith("/training-edit")) {
+
+                int id = getId(request);
+
+                view = trainingAction.trainingEditForm(id, model);
             }
 
-        } catch (StudentException | TrainerException e) {
+        } catch (StudentException | TrainerException | TrainingException e) {
 
             handleException(model, e);
+
+            view = "error";
+
+        } catch (NumberFormatException e) {
+
+            handleException(model, "ID invalide.");
 
             view = "error";
         }
@@ -135,64 +161,37 @@ public class Controller extends HttpServlet {
 
                 Student student = new Student();
 
-                student.setFirstName(
-                        request.getParameter("firstName")
-                );
+                student.setFirstName(request.getParameter("firstName"));
 
-                student.setLastName(
-                        request.getParameter("lastName")
-                );
+                student.setLastName(request.getParameter("lastName"));
 
-                student.setEmail(
-                        request.getParameter("email")
-                );
+                student.setEmail(request.getParameter("email"));
 
-                student.setPhone(
-                        request.getParameter("phone")
-                );
+                student.setPhone(request.getParameter("phone"));
 
-                view = studentAction.addStudent(
-                        student,
-                        model
-                );
+                view = studentAction.addStudent(student, model);
 
             } else if (uri.endsWith("/student-update")) {
 
                 Student student = new Student();
 
-                student.setId(
-                        getId(request)
-                );
+                student.setId(getId(request));
 
-                student.setFirstName(
-                        request.getParameter("firstName")
-                );
+                student.setFirstName(request.getParameter("firstName"));
 
-                student.setLastName(
-                        request.getParameter("lastName")
-                );
+                student.setLastName(request.getParameter("lastName"));
 
-                student.setEmail(
-                        request.getParameter("email")
-                );
+                student.setEmail(request.getParameter("email"));
 
-                student.setPhone(
-                        request.getParameter("phone")
-                );
+                student.setPhone(request.getParameter("phone"));
 
-                view = studentAction.updateStudent(
-                        student,
-                        model
-                );
+                view = studentAction.updateStudent(student, model);
 
             } else if (uri.endsWith("/student-delete")) {
 
                 int id = getId(request);
 
-                view = studentAction.deleteStudent(
-                        id,
-                        model
-                );
+                view = studentAction.deleteStudent(id, model);
 
             // =================================================
             // TRAINER
@@ -202,69 +201,96 @@ public class Controller extends HttpServlet {
 
                 Trainer trainer = new Trainer();
 
-                trainer.setFirstName(
-                        request.getParameter("firstName")
-                );
+                trainer.setFirstName(request.getParameter("firstName"));
 
-                trainer.setLastName(
-                        request.getParameter("lastName")
-                );
+                trainer.setLastName(request.getParameter("lastName"));
 
-                trainer.setEmail(
-                        request.getParameter("email")
-                );
+                trainer.setEmail(request.getParameter("email"));
 
-                trainer.setSpecialization(
-                        request.getParameter("specialization")
-                );
+                trainer.setSpecialization(request.getParameter("specialization"));
 
-                view = trainerAction.addTrainer(
-                        trainer,
-                        model
-                );
+                view = trainerAction.addTrainer(trainer, model);
 
             } else if (uri.endsWith("/trainer-update")) {
 
                 Trainer trainer = new Trainer();
 
-                trainer.setId(
-                        getId(request)
-                );
+                trainer.setId(getId(request));
 
-                trainer.setFirstName(
-                        request.getParameter("firstName")
-                );
+                trainer.setFirstName(request.getParameter("firstName"));
 
-                trainer.setLastName(
-                        request.getParameter("lastName")
-                );
+                trainer.setLastName(request.getParameter("lastName"));
 
-                trainer.setEmail(
-                        request.getParameter("email")
-                );
+                trainer.setEmail( request.getParameter("email"));
 
-                trainer.setSpecialization(
-                        request.getParameter("specialization")
-                );
+                trainer.setSpecialization(request.getParameter("specialization"));
 
-                view = trainerAction.updateTrainer(
-                        trainer,
-                        model
-                );
+                view = trainerAction.updateTrainer(trainer, model);
 
             } else if (uri.endsWith("/trainer-delete")) {
 
                 int id = getId(request);
 
-                view = trainerAction.deleteTrainer(
-                        id,
-                        model
-                );
+                view = trainerAction.deleteTrainer(id, model);
+
+            // =================================================
+            // TRAINING
+            // =================================================
+
+            } else if (uri.endsWith("/training-add")) {
+
+                Training training = new Training();
+
+                training.setTitle(request.getParameter("title"));
+
+                training.setDescription(request.getParameter("description"));
+
+                training.setDuration(Integer.parseInt(request.getParameter("duration")));
+
+                Trainer trainer = new Trainer();
+
+                trainer.setId(Integer.parseInt(request.getParameter("trainerId")));
+
+                training.setTrainer(trainer);
+
+                view = trainingAction.addTraining(training, model);
+
+            } else if (uri.endsWith("/training-update")) {
+
+                Training training = new Training();
+
+                training.setId(getId(request));
+
+                training.setTitle(request.getParameter("title"));
+
+                training.setDescription(request.getParameter("description"));
+
+                training.setDuration(Integer.parseInt(request.getParameter("duration")));
+
+                Trainer trainer = new Trainer();
+
+                trainer.setId(Integer.parseInt(request.getParameter("trainerId")));
+
+                training.setTrainer(trainer);
+
+                view = trainingAction.updateTraining(training, model);
+
+            } else if (uri.endsWith("/training-delete")) {
+
+                int id = getId(request);
+
+                view = trainingAction.deleteTraining(id, model);
             }
 
-        } catch (StudentException | TrainerException e) {
+        } catch (StudentException | TrainerException | TrainingException e) {
 
             handleException(model, e);
+
+            view = "error";
+
+        } catch (NumberFormatException e) {
+
+            handleException(model, "Valeur numérique invalide.");
 
             view = "error";
         }
@@ -278,42 +304,34 @@ public class Controller extends HttpServlet {
 
     private int getId(HttpServletRequest request) {
 
-        return Integer.parseInt(
-                request.getParameter("id")
-        );
+        return Integer.parseInt(request.getParameter("id"));
     }
 
     // =====================================================
     // EXCEPTION HANDLING
     // =====================================================
 
-    private void handleException(
-            Model model,
-            Exception exception) {
+    private void handleException(Model model, Exception exception) {
 
-        model.setModel(
-                "error",
-                exception.getMessage()
-        );
+        model.setModel("error", exception.getMessage());
+    }
+
+    private void handleException(Model model, String message) {
+
+        model.setModel("error", message);
     }
 
     // =====================================================
     // FORWARD
     // =====================================================
 
-    private void forward(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            String view,
-            Model model)
+    private void forward(HttpServletRequest request, HttpServletResponse response, String view, Model model)
             throws ServletException, IOException {
 
         request.setAttribute("model", model);
 
         getServletContext()
-                .getRequestDispatcher(
-                        prefix + view + suffix
-                )
+                .getRequestDispatcher(prefix + view + suffix )
                 .forward(request, response);
     }
 }
