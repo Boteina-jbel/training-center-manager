@@ -4,6 +4,8 @@ import org.mql.jee.jdbc.DataSource;
 import org.mql.jee.jdbc.Database;
 import org.mql.jee.jdbc.MySQLDataSource;
 
+import org.mql.jee.trainingcenter.business.EnrollmentService;
+import org.mql.jee.trainingcenter.business.EnrollmentServiceDefault;
 import org.mql.jee.trainingcenter.business.StudentService;
 import org.mql.jee.trainingcenter.business.StudentServiceDefault;
 import org.mql.jee.trainingcenter.business.TrainerService;
@@ -11,6 +13,8 @@ import org.mql.jee.trainingcenter.business.TrainerServiceDefault;
 import org.mql.jee.trainingcenter.business.TrainingService;
 import org.mql.jee.trainingcenter.business.TrainingServiceDefault;
 
+import org.mql.jee.trainingcenter.dao.EnrollmentDao;
+import org.mql.jee.trainingcenter.dao.EnrollmentDaoJdbc;
 import org.mql.jee.trainingcenter.dao.StudentDao;
 import org.mql.jee.trainingcenter.dao.StudentDaoJdbc;
 import org.mql.jee.trainingcenter.dao.TrainerDao;
@@ -29,6 +33,10 @@ public class ApplicationContext {
     private static TrainingService trainingService;
     private static TrainingDao trainingDao;
 
+    private static EnrollmentService enrollmentService;
+    private static EnrollmentDao enrollmentDao;
+
+
     static {
 
         // Wiring
@@ -40,20 +48,39 @@ public class ApplicationContext {
 
         Database db = new Database(ds);
 
+
         // STUDENT
+
         studentDao = new StudentDaoJdbc(db);
         studentService = new StudentServiceDefault(studentDao);
 
+
         // TRAINER
+
         trainerDao = new TrainerDaoJdbc(db);
         trainerService = new TrainerServiceDefault(trainerDao);
 
+
         // TRAINING
+
         trainingDao = new TrainingDaoJdbc(db);
         trainingService = new TrainingServiceDefault(trainingDao);
+
+
+        // ENROLLMENT
+
+        enrollmentDao = new EnrollmentDaoJdbc(db);
+
+        enrollmentService = new EnrollmentServiceDefault(
+                enrollmentDao,
+                studentDao,
+                trainingDao
+        );
     }
 
+
     // STUDENT
+
     public static StudentService getStudentService() {
         return studentService;
     }
@@ -62,7 +89,9 @@ public class ApplicationContext {
         return studentDao;
     }
 
+
     // TRAINER
+
     public static TrainerService getTrainerService() {
         return trainerService;
     }
@@ -71,12 +100,25 @@ public class ApplicationContext {
         return trainerDao;
     }
 
+
     // TRAINING
+
     public static TrainingService getTrainingService() {
         return trainingService;
     }
 
     public static TrainingDao getTrainingDao() {
         return trainingDao;
+    }
+
+
+    // ENROLLMENT
+
+    public static EnrollmentService getEnrollmentService() {
+        return enrollmentService;
+    }
+
+    public static EnrollmentDao getEnrollmentDao() {
+        return enrollmentDao;
     }
 }
