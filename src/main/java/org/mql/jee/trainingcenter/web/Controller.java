@@ -1,17 +1,21 @@
 package org.mql.jee.trainingcenter.web;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import org.mql.jee.trainingcenter.context.Model;
 
+import org.mql.jee.trainingcenter.exceptions.EnrollmentException;
 import org.mql.jee.trainingcenter.exceptions.StudentException;
 import org.mql.jee.trainingcenter.exceptions.TrainerException;
 import org.mql.jee.trainingcenter.exceptions.TrainingException;
 
+import org.mql.jee.trainingcenter.models.Enrollment;
 import org.mql.jee.trainingcenter.models.Student;
 import org.mql.jee.trainingcenter.models.Trainer;
 import org.mql.jee.trainingcenter.models.Training;
 
+import org.mql.jee.trainingcenter.web.actions.EnrollmentAction;
 import org.mql.jee.trainingcenter.web.actions.StudentAction;
 import org.mql.jee.trainingcenter.web.actions.TrainerAction;
 import org.mql.jee.trainingcenter.web.actions.TrainingAction;
@@ -32,6 +36,8 @@ public class Controller extends HttpServlet {
     private StudentAction studentAction;
     private TrainerAction trainerAction;
     private TrainingAction trainingAction;
+    private EnrollmentAction enrollmentAction;
+
 
     @Override
     public void init() throws ServletException {
@@ -44,7 +50,9 @@ public class Controller extends HttpServlet {
         studentAction = new StudentAction();
         trainerAction = new TrainerAction();
         trainingAction = new TrainingAction();
+        enrollmentAction = new EnrollmentAction();
     }
+
 
     // =====================================================
     // GET
@@ -82,6 +90,7 @@ public class Controller extends HttpServlet {
 
                 view = studentAction.studentEditForm(id, model);
 
+
             // =================================================
             // TRAINER
             // =================================================
@@ -100,6 +109,7 @@ public class Controller extends HttpServlet {
 
                 view = trainerAction.trainerEditForm(id, model);
 
+
             // =================================================
             // TRAINING
             // =================================================
@@ -117,9 +127,33 @@ public class Controller extends HttpServlet {
                 int id = getId(request);
 
                 view = trainingAction.trainingEditForm(id, model);
+
+
+            // =================================================
+            // ENROLLMENT
+            // =================================================
+
+            } else if (uri.endsWith("/enrollments-list")) {
+
+                view = enrollmentAction.enrollmentsList(model);
+
+            } else if (uri.endsWith("/enrollment-add-form")) {
+
+                view = enrollmentAction.enrollmentAddForm(model);
+
+            } else if (uri.endsWith("/enrollment-edit")) {
+
+                int id = getId(request);
+
+                view = enrollmentAction.enrollmentEditForm(id, model);
             }
 
-        } catch (StudentException | TrainerException | TrainingException e) {
+
+        } catch (
+                StudentException |
+                TrainerException |
+                TrainingException |
+                EnrollmentException e) {
 
             handleException(model, e);
 
@@ -127,13 +161,14 @@ public class Controller extends HttpServlet {
 
         } catch (NumberFormatException e) {
 
-            handleException(model, "ID invalide.");
+            handleException(model, "Invalid ID.");
 
             view = "error";
         }
 
         forward(request, response, view, model);
     }
+
 
     // =====================================================
     // POST
@@ -161,15 +196,21 @@ public class Controller extends HttpServlet {
 
                 Student student = new Student();
 
-                student.setFirstName(request.getParameter("firstName"));
+                student.setFirstName(
+                        request.getParameter("firstName"));
 
-                student.setLastName(request.getParameter("lastName"));
+                student.setLastName(
+                        request.getParameter("lastName"));
 
-                student.setEmail(request.getParameter("email"));
+                student.setEmail(
+                        request.getParameter("email"));
 
-                student.setPhone(request.getParameter("phone"));
+                student.setPhone(
+                        request.getParameter("phone"));
 
-                view = studentAction.addStudent(student, model);
+                view = studentAction.addStudent(
+                        student,
+                        model);
 
             } else if (uri.endsWith("/student-update")) {
 
@@ -177,21 +218,30 @@ public class Controller extends HttpServlet {
 
                 student.setId(getId(request));
 
-                student.setFirstName(request.getParameter("firstName"));
+                student.setFirstName(
+                        request.getParameter("firstName"));
 
-                student.setLastName(request.getParameter("lastName"));
+                student.setLastName(
+                        request.getParameter("lastName"));
 
-                student.setEmail(request.getParameter("email"));
+                student.setEmail(
+                        request.getParameter("email"));
 
-                student.setPhone(request.getParameter("phone"));
+                student.setPhone(
+                        request.getParameter("phone"));
 
-                view = studentAction.updateStudent(student, model);
+                view = studentAction.updateStudent(
+                        student,
+                        model);
 
             } else if (uri.endsWith("/student-delete")) {
 
                 int id = getId(request);
 
-                view = studentAction.deleteStudent(id, model);
+                view = studentAction.deleteStudent(
+                        id,
+                        model);
+
 
             // =================================================
             // TRAINER
@@ -201,15 +251,21 @@ public class Controller extends HttpServlet {
 
                 Trainer trainer = new Trainer();
 
-                trainer.setFirstName(request.getParameter("firstName"));
+                trainer.setFirstName(
+                        request.getParameter("firstName"));
 
-                trainer.setLastName(request.getParameter("lastName"));
+                trainer.setLastName(
+                        request.getParameter("lastName"));
 
-                trainer.setEmail(request.getParameter("email"));
+                trainer.setEmail(
+                        request.getParameter("email"));
 
-                trainer.setSpecialization(request.getParameter("specialization"));
+                trainer.setSpecialization(
+                        request.getParameter("specialization"));
 
-                view = trainerAction.addTrainer(trainer, model);
+                view = trainerAction.addTrainer(
+                        trainer,
+                        model);
 
             } else if (uri.endsWith("/trainer-update")) {
 
@@ -217,21 +273,30 @@ public class Controller extends HttpServlet {
 
                 trainer.setId(getId(request));
 
-                trainer.setFirstName(request.getParameter("firstName"));
+                trainer.setFirstName(
+                        request.getParameter("firstName"));
 
-                trainer.setLastName(request.getParameter("lastName"));
+                trainer.setLastName(
+                        request.getParameter("lastName"));
 
-                trainer.setEmail( request.getParameter("email"));
+                trainer.setEmail(
+                        request.getParameter("email"));
 
-                trainer.setSpecialization(request.getParameter("specialization"));
+                trainer.setSpecialization(
+                        request.getParameter("specialization"));
 
-                view = trainerAction.updateTrainer(trainer, model);
+                view = trainerAction.updateTrainer(
+                        trainer,
+                        model);
 
             } else if (uri.endsWith("/trainer-delete")) {
 
                 int id = getId(request);
 
-                view = trainerAction.deleteTrainer(id, model);
+                view = trainerAction.deleteTrainer(
+                        id,
+                        model);
+
 
             // =================================================
             // TRAINING
@@ -241,19 +306,27 @@ public class Controller extends HttpServlet {
 
                 Training training = new Training();
 
-                training.setTitle(request.getParameter("title"));
+                training.setTitle(
+                        request.getParameter("title"));
 
-                training.setDescription(request.getParameter("description"));
+                training.setDescription(
+                        request.getParameter("description"));
 
-                training.setDuration(Integer.parseInt(request.getParameter("duration")));
+                training.setDuration(
+                        Integer.parseInt(
+                                request.getParameter("duration")));
 
                 Trainer trainer = new Trainer();
 
-                trainer.setId(Integer.parseInt(request.getParameter("trainerId")));
+                trainer.setId(
+                        Integer.parseInt(
+                                request.getParameter("trainerId")));
 
                 training.setTrainer(trainer);
 
-                view = trainingAction.addTraining(training, model);
+                view = trainingAction.addTraining(
+                        training,
+                        model);
 
             } else if (uri.endsWith("/training-update")) {
 
@@ -261,28 +334,116 @@ public class Controller extends HttpServlet {
 
                 training.setId(getId(request));
 
-                training.setTitle(request.getParameter("title"));
+                training.setTitle(
+                        request.getParameter("title"));
 
-                training.setDescription(request.getParameter("description"));
+                training.setDescription(
+                        request.getParameter("description"));
 
-                training.setDuration(Integer.parseInt(request.getParameter("duration")));
+                training.setDuration(
+                        Integer.parseInt(
+                                request.getParameter("duration")));
 
                 Trainer trainer = new Trainer();
 
-                trainer.setId(Integer.parseInt(request.getParameter("trainerId")));
+                trainer.setId(
+                        Integer.parseInt(
+                                request.getParameter("trainerId")));
 
                 training.setTrainer(trainer);
 
-                view = trainingAction.updateTraining(training, model);
+                view = trainingAction.updateTraining(
+                        training,
+                        model);
 
             } else if (uri.endsWith("/training-delete")) {
 
                 int id = getId(request);
 
-                view = trainingAction.deleteTraining(id, model);
+                view = trainingAction.deleteTraining(
+                        id,
+                        model);
+
+
+            // =================================================
+            // ENROLLMENT
+            // =================================================
+
+            } else if (uri.endsWith("/enrollment-add")) {
+
+                Enrollment enrollment = new Enrollment();
+
+                Student student = new Student();
+
+                student.setId(
+                        Integer.parseInt(
+                                request.getParameter("studentId")));
+
+                Training training = new Training();
+
+                training.setId(
+                        Integer.parseInt(
+                                request.getParameter("trainingId")));
+
+                enrollment.setStudent(student);
+
+                enrollment.setTraining(training);
+
+                enrollment.setEnrollmentDate(
+                        Date.valueOf(
+                                request.getParameter("enrollmentDate")));
+
+                view = enrollmentAction.addEnrollment(
+                        enrollment,
+                        model);
+
+
+            } else if (uri.endsWith("/enrollment-update")) {
+
+                Enrollment enrollment = new Enrollment();
+
+                enrollment.setId(getId(request));
+
+                Student student = new Student();
+
+                student.setId(
+                        Integer.parseInt(
+                                request.getParameter("studentId")));
+
+                Training training = new Training();
+
+                training.setId(
+                        Integer.parseInt(
+                                request.getParameter("trainingId")));
+
+                enrollment.setStudent(student);
+
+                enrollment.setTraining(training);
+
+                enrollment.setEnrollmentDate(
+                        Date.valueOf(
+                                request.getParameter("enrollmentDate")));
+
+                view = enrollmentAction.updateEnrollment(
+                        enrollment,
+                        model);
+
+
+            } else if (uri.endsWith("/enrollment-delete")) {
+
+                int id = getId(request);
+
+                view = enrollmentAction.deleteEnrollment(
+                        id,
+                        model);
             }
 
-        } catch (StudentException | TrainerException | TrainingException e) {
+
+        } catch (
+                StudentException |
+                TrainerException |
+                TrainingException |
+                EnrollmentException e) {
 
             handleException(model, e);
 
@@ -290,7 +451,17 @@ public class Controller extends HttpServlet {
 
         } catch (NumberFormatException e) {
 
-            handleException(model, "Valeur numérique invalide.");
+            handleException(
+                    model,
+                    "Invalid numeric value.");
+
+            view = "error";
+
+        } catch (IllegalArgumentException e) {
+
+            handleException(
+                    model,
+                    "Invalid date.");
 
             view = "error";
         }
@@ -298,40 +469,60 @@ public class Controller extends HttpServlet {
         forward(request, response, view, model);
     }
 
+
     // =====================================================
     // GET ID
     // =====================================================
 
     private int getId(HttpServletRequest request) {
 
-        return Integer.parseInt(request.getParameter("id"));
+        return Integer.parseInt(
+                request.getParameter("id"));
     }
+
 
     // =====================================================
     // EXCEPTION HANDLING
     // =====================================================
 
-    private void handleException(Model model, Exception exception) {
+    private void handleException(
+            Model model,
+            Exception exception) {
 
-        model.setModel("error", exception.getMessage());
+        model.setModel(
+                "error",
+                exception.getMessage());
     }
 
-    private void handleException(Model model, String message) {
 
-        model.setModel("error", message);
+    private void handleException(
+            Model model,
+            String message) {
+
+        model.setModel(
+                "error",
+                message);
     }
+
 
     // =====================================================
     // FORWARD
     // =====================================================
 
-    private void forward(HttpServletRequest request, HttpServletResponse response, String view, Model model)
+    private void forward(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String view,
+            Model model)
             throws ServletException, IOException {
 
-        request.setAttribute("model", model);
+        request.setAttribute(
+                "model",
+                model);
 
         getServletContext()
-                .getRequestDispatcher(prefix + view + suffix )
+                .getRequestDispatcher(
+                        prefix + view + suffix)
                 .forward(request, response);
     }
 }
