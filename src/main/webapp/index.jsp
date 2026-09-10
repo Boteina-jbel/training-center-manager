@@ -3,5 +3,5 @@
     pageEncoding="UTF-8"%>
 
 <%
-    response.sendRedirect(request.getContextPath() + "/training/students-list");
+    response.sendRedirect(request.getContextPath() + "/training/dashboard");
 %>
