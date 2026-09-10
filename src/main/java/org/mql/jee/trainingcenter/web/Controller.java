@@ -76,7 +76,11 @@ public class Controller extends HttpServlet {
             // STUDENT
             // =================================================
 
-            if (uri.endsWith("/students-list")) {
+        	if (uri.endsWith("/dashboard")) {
+        		
+        	    view = "dashboard";
+        	    
+        	} else if (uri.endsWith("/students-list")) {
 
                 view = studentAction.studentsList(model);
 
