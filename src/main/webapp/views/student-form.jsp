@@ -5,6 +5,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Student" %>
 <%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
 
@@ -32,40 +34,8 @@
     <%= editMode ? "Edit Student" : "Add Student" %>
 </title>
 
-<style>
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-}
-
-form {
-    width: 400px;
-}
-
-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
-button {
-    margin-top: 20px;
-    padding: 10px 15px;
-}
-
-.back-button {
-    display: inline-block;
-    margin-top: 15px;
-}
-
-</style>
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/forms.css">
 
 </head>
 

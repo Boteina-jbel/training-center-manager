@@ -6,6 +6,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
 <%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
     List<Trainer> trainers =

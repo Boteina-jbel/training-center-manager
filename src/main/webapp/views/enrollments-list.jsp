@@ -6,6 +6,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Enrollment" %>
 <%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
 

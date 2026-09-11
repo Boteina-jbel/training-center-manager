@@ -7,6 +7,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
 <%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
 
@@ -37,47 +39,9 @@
     <title>
         <%= edit ? "Edit Training" : "Add Training" %>
     </title>
-
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        form {
-            width: 500px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 100px;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 15px;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-    </style>
+    
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/forms.css">
 
 </head>
 

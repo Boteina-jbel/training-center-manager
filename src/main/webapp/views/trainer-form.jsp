@@ -5,6 +5,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Trainer" %>
 <%@ page import="org.mql.jee.trainingcenter.context.Model" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
 
@@ -20,34 +22,9 @@
     <title>
         <%= edit ? "Edit Trainer" : "Add Trainer" %>
     </title>
-
-    <style>
-        form {
-            width: 400px;
-            margin: 30px auto;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            box-sizing: border-box;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-    </style>
+    
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/forms.css">
 </head>
 
 <body>

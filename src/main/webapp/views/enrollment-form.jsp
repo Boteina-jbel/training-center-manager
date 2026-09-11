@@ -4,6 +4,8 @@
 <%@ page import="org.mql.jee.trainingcenter.models.Student" %>
 <%@ page import="org.mql.jee.trainingcenter.models.Training" %>
 
+<%@ include file="./header.jsp" %>
+
 <%
     Model model = (Model) request.getAttribute("model");
 
@@ -24,63 +26,10 @@
 <head>
     <meta charset="UTF-8">
     <title><%= editMode ? "Edit Enrollment" : "Add Enrollment" %></title>
+    
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/forms.css">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1 {
-            margin-bottom: 25px;
-        }
-
-        form {
-            width: 500px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        select,
-        input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            background-color: #28a745;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .back-button:hover {
-            background-color: #5a6268;
-        }
-    </style>
 </head>
 
 <body>
