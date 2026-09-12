@@ -432,10 +432,6 @@ training-center-manager/
 │       ├── java/
 │       │   └── org/mql/jee/
 │       │       │
-│       │       ├── jdbc/
-│       │       │   ├── Database.java
-│       │       │   ├── DataSource.java
-│       │       │   └── MySQLDataSource.java
 │       │       │
 │       │       └── trainingcenter/
 │       │           │
