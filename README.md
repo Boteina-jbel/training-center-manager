@@ -186,6 +186,8 @@ La couche Business travaille avec :
 ```text
 StudentDao
 TrainerDao
+TrainingDao
+EnrollmentDao
 ```
 
 et ne dépend pas directement des classes JDBC.
