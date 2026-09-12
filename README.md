@@ -15,10 +15,9 @@ Le projet a été réalisé sous forme de **Dynamic Web Project** avec Eclipse e
 - Formations
 - Inscriptions
 
-La gestion des étudiants et des formateurs comprend les opérations CRUD :
+La gestion des étudiants, des formateurs, des formations et des inscriptions comprend les opérations CRUD :
 
 - Consultation
-- Recherche par identifiant
 - Ajout
 - Modification
 - Suppression
@@ -80,6 +79,12 @@ StudentServiceDefault
 
 TrainerService
 TrainerServiceDefault
+
+TrainingService
+TrainingServiceDefault
+
+EnrollmentService
+EnrollmentServiceDefault
 ```
 
 Cette couche est responsable notamment :
@@ -106,6 +111,12 @@ StudentDaoJdbc
 
 TrainerDao
 TrainerDaoJdbc
+
+TrainingDao
+TrainingDaoJdbc
+
+EnrollmentDao
+EnrollmentDaoJdbc
 ```
 
 Les interfaces DAO définissent les opérations disponibles tandis que les implémentations utilisent JDBC pour communiquer avec la base de données.
@@ -360,13 +371,14 @@ Le projet contient des tests unitaires de la couche Business avec **JUnit 5**.
 Des DAO Mock sont utilisés afin de tester les services sans dépendre directement de la base de données.
 
 ```text
-TrainerService
-       ↓
-TrainerDao
-       ↓
-TrainerDaoMock
+Service
+   ↓
+DAO Interface
+   ↓
+DAO Mock
 ```
 
+Des DAO Mock sont utilisés afin de tester les services Business indépendamment de la base de données.
 Cette approche permet de tester la logique métier de manière isolée.
 
 Les tests couvrent notamment :
@@ -391,6 +403,8 @@ Le projet utilise des exceptions métier personnalisées :
 ```text
 StudentException
 TrainerException
+TrainingException
+EnrollmentException
 ```
 
 Elles permettent à la couche Business de signaler les erreurs liées aux règles métier.
@@ -412,7 +426,8 @@ Specialization is required.
 ```text
 training-center-manager/
 │
-├── src/
+├── Java Resources/
+|  └──src/
 │   └── main/
 │       ├── java/
 │       │   └── org/mql/jee/
@@ -437,6 +452,8 @@ training-center-manager/
 │       └── webapp/
 │           ├── index.jsp
 │           │
+|           ├── css/
+|           |
 │           ├── views/
 │           │
 │           └── WEB-INF/
