@@ -23,68 +23,9 @@
     <meta charset="UTF-8">
 
     <title>Trainings List</title>
-
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        .add-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #2e7d32;
-            color: white;
-            text-decoration: none;
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .edit-button {
-            color: #1976d2;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-        .delete-button {
-            color: #d32f2f;
-            text-decoration: none;
-            border: none;
-            background: none;
-            padding: 0;
-            cursor: pointer;
-            font-size: inherit;
-        }
-
-        .navigation {
-            margin-bottom: 20px;
-        }
-
-        .navigation a {
-            margin-right: 15px;
-            text-decoration: none;
-        }
-
-    </style>
+    
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/lists.css">
 
 </head>
 
@@ -98,18 +39,6 @@
         + Add Training
 
     </a>
-
-    <div class="navigation">
-
-        <a href="<%= request.getContextPath() %>/training/students-list">
-            Students
-        </a>
-
-        <a href="<%= request.getContextPath() %>/training/trainers-list">
-            Trainers
-        </a>
-
-    </div>
 
     <table>
 

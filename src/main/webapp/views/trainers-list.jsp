@@ -19,54 +19,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Trainers List</title>
+    
+    <link rel="stylesheet"
+	      href="${pageContext.request.contextPath}/css/lists.css">
 
-    <style>
-
-		body {
-		    font-family: Arial, sans-serif;
-		    margin: 40px;
-		}
-		
-		h1 {
-		    margin-bottom: 20px;
-		}
-		
-		.add-button {
-		    display: inline-block;
-		    padding: 10px 15px;
-		    background-color: #2e7d32;
-		    color: white;
-		    text-decoration: none;
-		    margin-bottom: 20px;
-		}
-		
-		table {
-		    border-collapse: collapse;
-		    width: 100%;
-		}
-		
-		th, td {
-		    border: 1px solid #ccc;
-		    padding: 10px;
-		    text-align: left;
-		}
-		
-		th {
-		    background-color: #f2f2f2;
-		}
-		
-		.edit-button {
-		    color: #1976d2;
-		    text-decoration: none;
-		    margin-right: 10px;
-		}
-		
-		.delete-button {
-		    color: #d32f2f;
-		    text-decoration: none;
-		}
-		
-	</style>
 </head>
 
 <body>

@@ -1,0 +1,82 @@
+@charset "UTF-8";
+
+/* =========================
+   Lists
+   ========================= */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* =========================
+   Add button
+   ========================= */
+
+.add-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #2e7d32;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.add-button:hover {
+    background-color: #256628;
+}
+
+/* =========================
+   Table
+   ========================= */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* =========================
+   Actions
+   ========================= */
+
+.edit-button {
+    color: #1976d2;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.edit-button:hover {
+    text-decoration: underline;
+}
+
+.delete-button {
+    color: #d32f2f;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    text-decoration: underline;
+}

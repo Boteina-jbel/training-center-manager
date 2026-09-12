@@ -21,90 +21,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Enrollments List</title>
+    
+    <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/lists.css">
 
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        .add-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #2e7d32;
-            color: white;
-            text-decoration: none;
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .edit-button {
-            color: #1976d2;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-        .delete-button {
-            color: #d32f2f;
-            text-decoration: none;
-        }
-
-        .navigation {
-            margin-bottom: 20px;
-        }
-
-        .navigation a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #1976d2;
-        }
-
-    </style>
 </head>
 
 <body>
 
     <h1>Enrollments List</h1>
-
-    <!-- Navigation -->
-    <div class="navigation">
-
-        <a href="<%= request.getContextPath() %>/training/students-list">
-            Students
-        </a>
-
-        <a href="<%= request.getContextPath() %>/training/trainers-list">
-            Trainers
-        </a>
-
-        <a href="<%= request.getContextPath() %>/training/trainings-list">
-            Trainings
-        </a>
-
-        <a href="<%= request.getContextPath() %>/training/enrollments-list">
-            Enrollments
-        </a>
-
-    </div>
 
 
     <!-- Add Enrollment -->
