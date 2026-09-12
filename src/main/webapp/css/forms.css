@@ -26,23 +26,36 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="date"],
-select {
+input[type="number"],
+select,
+textarea {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-
     border: 1px solid #cccccc;
     border-radius: 4px;
-
     font-family: Arial, sans-serif;
     font-size: 14px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="date"],
-select {
+.form-control {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+input.form-control,
+select.form-control {
     height: 40px;
+}
+
+textarea.form-control {
+    height: 100px;
+    resize: vertical;
 }
 
 button {

@@ -70,44 +70,37 @@
         </label>
 
         <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            value="<%= edit ? training.getTitle() : "" %>">
-
-
-        <label for="description">
-            Description:
-        </label>
-
-        <textarea
-            id="description"
-            name="description"
-            required><%= edit ? training.getDescription() : "" %></textarea>
-
-
-        <label for="duration">
-            Duration (hours):
-        </label>
-
-        <input
-            type="number"
-            id="duration"
-            name="duration"
-            min="1"
-            required
-            value="<%= edit ? training.getDuration() : "" %>">
-
-
-        <label for="trainerId">
-            Trainer:
-        </label>
-
-        <select
-            id="trainerId"
-            name="trainerId"
-            required>
+		    type="text"
+		    id="title"
+		    name="title"
+		    class="form-control"
+		    required
+		    value="<%= edit ? training.getTitle() : "" %>">
+		
+		<label for="description">Description:</label>
+		<textarea
+		    id="description"
+		    name="description"
+		    class="form-control"
+		    required><%= edit ? training.getDescription() : "" %></textarea>
+		
+		<label for="duration">Duration (hours):</label>
+		<input
+		    type="number"
+		    id="duration"
+		    name="duration"
+		    class="form-control"
+		    min="1"
+		    required
+		    value="<%= edit ? training.getDuration() : "" %>">
+		
+		<label for="trainerId">Trainer:</label>
+		
+		<select
+		    id="trainerId"
+		    name="trainerId"
+		    class="form-control"
+		    required>
 
             <option value="">
                 -- Select a trainer --
@@ -155,7 +148,7 @@
 
 
     <a
-        class="back"
+        class="back-button"
         href="<%= request.getContextPath() %>/training/trainings-list">
 
         ← Back to List
