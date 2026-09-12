@@ -379,8 +379,6 @@ DAO Interface
    ↓
 DAO Mock
 ```
-
-Des DAO Mock sont utilisés afin de tester les services Business indépendamment de la base de données.
 Cette approche permet de tester la logique métier de manière isolée.
 
 Les tests couvrent notamment :
